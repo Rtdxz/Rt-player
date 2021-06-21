@@ -1,6 +1,7 @@
-import path from 'path';
-import alias from './config/alias';
-import rootPath from './config/utils';
+const path = require('path');
+
+const alias = require('./config/alias');
+const { rootPath } = require('./config/utils');
 
 module.exports = {
   chainWebpack: (config) => {
