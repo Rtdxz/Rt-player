@@ -2,6 +2,8 @@ import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
 import store from './store';
+import 'COMMON/static/flexible.min';
+import 'ASSETS/css/normalize.css';
 
 Vue.config.productionTip = false;
 

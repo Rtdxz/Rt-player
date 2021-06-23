@@ -21,9 +21,13 @@ module.exports = {
       ts:'never'
     }],
     // 'import/no-unresolved': 0,
+    'max-len': 'off',
+    'no-param-reassign': 'off',
+    "class-methods-use-this":"off",
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     '@typescript-eslint/no-var-requires': 0,
+    '@typescript-eslint/explicit-module-boundary-types':'off'
     // 'space-before-function-paren': 0
   },
   settings: {

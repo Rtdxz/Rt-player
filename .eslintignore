@@ -1,0 +1,10 @@
+/scripts/
+/config/
+/dist/
+static/
+/common/assets/
+/common/sentry/
+/common/
+lang/
+/*.js
+/src/**/assets/js/ignore/*.js
