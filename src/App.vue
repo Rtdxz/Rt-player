@@ -1,32 +1,39 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <!-- <router-view /> -->
+    <Header></Header>
+    <div class="middle"><side-bar></side-bar> <Main></Main></div>
+
+    <Footer></Footer>
   </div>
 </template>
 
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+
+import Header from '@components/Header.vue';
+import Footer from '@components/Footer.vue';
+import SideBar from '@components/SideBar.vue';
+
+import Main from '@views/Main.vue';
+
+@Component({
+  components: {
+    Header,
+    Footer,
+    SideBar,
+    Main,
+  },
+})
+export default class Home extends Vue {}
+</script>
+
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+@import '~@/assets/css/index.scss';
+* {
+  font-size: 20px;
 }
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+.middle {
+  overflow: hidden;
 }
 </style>

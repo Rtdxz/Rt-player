@@ -1,0 +1,41 @@
+<template>
+  <div class="header"></div>
+</template>
+
+<script lang="ts">
+import {
+  Component, Vue, Watch, Prop,
+} from 'vue-property-decorator';
+
+@Component({
+  name: 'Default',
+})
+export default class Default extends Vue {
+  @Watch('name')
+  getWatchValue(newVal: string, oldVal: string) {
+    console.log(newVal, oldVal);
+  }
+
+  @Prop({ default: 'default value' })
+  propA!: string;
+
+  created() {
+    console.log('created');
+  }
+
+  mounted() {
+    console.log('mounted');
+  }
+}
+</script>
+
+<style scoped lang="scss">
+// @import './index.scss';
+@import '~@/assets/css/index.scss';
+// $red: #ec4141;
+.header {
+  width: 100%;
+  height: 70px;
+  background-color: $theme-red;
+}
+</style>
