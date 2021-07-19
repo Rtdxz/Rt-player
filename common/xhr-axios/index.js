@@ -1,15 +1,25 @@
 /* eslint-disable no-param-reassign */
+import Vue from 'vue';
 import axios from 'axios';
 import { Message } from 'element-ui';
+import constant from '@constant';
 
-const baseURL = 'http://www.baidu.com';
-
+const baseURL = constant.BASE_URL;
+console.log(constant)
 axios.defaults.timeout = 50000;
 axios.defaults.baseURL = baseURL;
 // eslint-disable-next-line import/prefer-default-export
 
 axios.interceptors.request.use((config) => config, (err) => Promise.reject(err));
-axios.interceptors.response.use((res) => res, (err) => { // 当响应异常时做一些处理
+axios.interceptors.response.use((res) => {
+
+  if (res.data.code != 200) {
+
+    Message.error(res.data.msg);
+
+  }
+  return res
+}, (err) => { // 当响应异常时做一些处理
   if (err && err.response) {
     switch (err.response.status) {
       case 400: err.message = '请求错误(400)'; break;

@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    this is main
+    <router-view />
   </div>
 </template>
 
@@ -8,6 +8,8 @@
 import {
   Component, Vue, Watch, Prop,
 } from 'vue-property-decorator';
+
+import { search } from '@/services';
 
 @Component({
   name: 'Default',
@@ -27,6 +29,7 @@ export default class Default extends Vue {
 
   mounted() {
     console.log('mounted');
+    search('海阔天空').then((res) => console.log(res));
   }
 }
 </script>
