@@ -5,10 +5,12 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import SvgIconCloud from './SvgIconCloud.vue';
+import SvgIconRightArrow from './SvgIconRightArrow.vue';
 
 @Component({
   components: {
     SvgIconCloud,
+    SvgIconRightArrow,
   },
 })
 export default class SvgIcon extends Vue {

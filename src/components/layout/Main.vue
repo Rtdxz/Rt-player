@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="main">
     <router-view />
   </div>
 </template>
@@ -9,10 +9,10 @@ import {
   Component, Vue, Watch, Prop,
 } from 'vue-property-decorator';
 
-import { search } from '@/services';
+import { search } from '@services';
 
 @Component({
-  name: 'Default',
+  name: 'Main',
 })
 export default class Default extends Vue {
   @Watch('name')
@@ -36,4 +36,8 @@ export default class Default extends Vue {
 
 <style scoped lang="scss">
 // @import './index.scss';
+.main {
+  width: calc(100vw - 150px);
+  min-width: 1100px;
+}
 </style>

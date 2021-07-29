@@ -1,14 +1,50 @@
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
-import Home from '@views/Home.vue';
+// import Home from '@views/Home.vue';
+import Find from '@views/find/Find.vue';
+import Individuation from '@views/find/Individuation.vue';
+import SongSheet from '@views/find/SongSheet.vue';
+import RankingList from '@views/find/RankingList.vue';
+import Singer from '@views/find/Singer.vue';
+import NewestMusic from '@views/find/NewestMusic.vue';
 
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
   {
     path: '/',
-    name: 'Home',
-    component: Home,
+    redirect: '/find',
+  },
+  {
+    path: '/find',
+    name: 'find',
+    component: Find,
+    children: [
+      {
+        path: '',
+        redirect: 'Individuation',
+      },
+      {
+        path: 'Individuation',
+        component: Individuation,
+      },
+      {
+        path: 'SongSheet',
+        component: SongSheet,
+      },
+      {
+        path: 'RankingList',
+        component: RankingList,
+      },
+      {
+        path: 'Singer',
+        component: Singer,
+      },
+      {
+        path: 'NewestMusic',
+        component: NewestMusic,
+      },
+    ],
   },
   {
     path: '/about',

@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar"></div>
+  <div class="footer"></div>
 </template>
 
 <script lang="ts">
@@ -8,7 +8,7 @@ import {
 } from 'vue-property-decorator';
 
 @Component({
-  name: 'Default',
+  name: 'Footer',
 })
 export default class Default extends Vue {
   @Watch('name')
@@ -32,10 +32,11 @@ export default class Default extends Vue {
 <style scoped lang="scss">
 // @import './index.scss';
 @import '~@/assets/css/index.scss';
-.sidebar {
-  width: 150px;
-  height: calc(100vh - 145px);
-  float: left;
-  border-right: 1px solid $border-color;
+.footer {
+  height: 75px;
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid $border-color;
+  box-sizing: border-box;
 }
 </style>

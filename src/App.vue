@@ -11,11 +11,10 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 
-import Header from '@components/Header.vue';
-import Footer from '@components/Footer.vue';
-import SideBar from '@components/SideBar.vue';
-
-import Main from '@views/Main.vue';
+import Header from '@components/layout/Header.vue';
+import Footer from '@components/layout/Footer.vue';
+import SideBar from '@components/layout/SideBar.vue';
+import Main from '@components/layout/Main.vue';
 
 @Component({
   components: {
@@ -30,10 +29,13 @@ export default class Home extends Vue {}
 
 <style lang="scss">
 @import '~@/assets/css/index.scss';
-* {
+div {
   font-size: 20px;
 }
 .middle {
+  height: calc(100vh - 145px);
+  width: 100%;
   overflow: hidden;
+  display: flex;
 }
 </style>

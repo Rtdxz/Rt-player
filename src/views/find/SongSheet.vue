@@ -1,5 +1,5 @@
 <template>
-  <div class="header"></div>
+  <div class="">second</div>
 </template>
 
 <script lang="ts">
@@ -31,11 +31,4 @@ export default class Default extends Vue {
 
 <style scoped lang="scss">
 // @import './index.scss';
-@import '~@/assets/css/index.scss';
-// $red: #ec4141;
-.header {
-  width: 100%;
-  height: 70px;
-  background-color: $theme-red;
-}
 </style>

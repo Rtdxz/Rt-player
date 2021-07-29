@@ -1,4 +1,4 @@
-import request from 'AXIOS';
+import request from 'xhr-axios';
 
 export const search = (data: string) => request({
   method: 'get',
@@ -6,4 +6,29 @@ export const search = (data: string) => request({
   params: {
     keywords: data,
   },
+});
+
+export const getBanner = (type = 0) => request({
+  method: 'get',
+  url: '/banner',
+  params: {
+    type,
+  },
+});
+
+export const getPrivateContent = () => request({
+  method: 'get',
+  url: '/personalized/privatecontent',
+});
+
+const cookie = sessionStorage.getItem('cookie');
+const password = encodeURIComponent('18023276136rtc');
+export const getRecommandSongSheet = () => request({
+  method: 'get',
+  url: `/recommend/resource?cookie=${cookie}`,
+});
+
+export const login = () => request({
+  method: 'get',
+  url: `/login/cellphone?phone=18023276136&password=${password}`,
 });

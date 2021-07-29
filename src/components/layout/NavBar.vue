@@ -29,6 +29,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 import SvgIcon from '@components/svg/SvgIcon.vue';
 
 @Component({
+  name: 'NavBar',
   components: {
     SvgIcon,
   },

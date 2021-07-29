@@ -1,5 +1,7 @@
 <template>
-  <div class="footer"></div>
+  <div class="header">
+    <el-button @click="login">login</el-button>
+  </div>
 </template>
 
 <script lang="ts">
@@ -7,8 +9,10 @@ import {
   Component, Vue, Watch, Prop,
 } from 'vue-property-decorator';
 
+import { login } from '@services';
+
 @Component({
-  name: 'Default',
+  name: 'Header',
 })
 export default class Default extends Vue {
   @Watch('name')
@@ -26,17 +30,24 @@ export default class Default extends Vue {
   mounted() {
     console.log('mounted');
   }
+
+  async login() {
+    const res = await login();
+
+    const { cookie } = res.data;
+    this.$store.state.cookie = encodeURIComponent(cookie);
+    sessionStorage.setItem('cookie', this.$store.state.cookie);
+  }
 }
 </script>
 
 <style scoped lang="scss">
 // @import './index.scss';
 @import '~@/assets/css/index.scss';
-.footer {
-  height: 75px;
+// $red: #ec4141;
+.header {
   width: 100%;
-  background-color: #fff;
-  border: 1px solid $border-color;
-  box-sizing: border-box;
+  height: 70px;
+  background-color: $theme-red;
 }
 </style>
