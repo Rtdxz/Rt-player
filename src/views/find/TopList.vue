@@ -8,7 +8,7 @@ import {
 } from 'vue-property-decorator';
 
 @Component({
-  name: 'Default',
+  name: 'TopList',
 })
 export default class Default extends Vue {
   @Watch('name')
@@ -19,13 +19,13 @@ export default class Default extends Vue {
   @Prop({ default: 'default value' })
   propA!: string;
 
-  created() {
-    console.log('created');
-  }
+  // created() {
+  //   console.log('created');
+  // }
 
-  mounted() {
-    console.log('mounted');
-  }
+  // mounted() {
+  //   console.log('mounted');
+  // }
 }
 </script>
 

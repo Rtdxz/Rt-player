@@ -19,13 +19,13 @@ export default class Default extends Vue {
   @Prop({ default: 'default value' })
   propA!: string;
 
-  created() {
-    console.log('created');
-  }
+  // created() {
+  //   console.log('created');
+  // }
 
-  mounted() {
-    console.log('mounted');
-  }
+  // mounted() {
+  //   console.log('mounted');
+  // }
 }
 </script>
 
@@ -33,9 +33,9 @@ export default class Default extends Vue {
 // @import './index.scss';
 @import '~@/assets/css/index.scss';
 .sidebar {
-  width: 150px;
-  height: calc(100vh - 145px);
-  flex: 0 0 150px;
+  width: 200px;
+  height: calc(100vh - 120px);
+  flex: 0 0 200px;
   // float: left;
   border-right: 1px solid $border-color;
 }

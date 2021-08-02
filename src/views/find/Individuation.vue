@@ -1,9 +1,10 @@
 <template>
   <div class="Individuation">
+    <!-- 轮播图 -->
     <el-carousel :interval="4000" type="card" height="200px">
       <el-carousel-item
         v-for="item in banner.banners"
-        :key="item"
+        :key="item.id"
         :style="{
           backgroundImage: `url(${item.imageUrl})`,
         }"
@@ -11,7 +12,7 @@
         <h3 class="medium"></h3>
       </el-carousel-item>
     </el-carousel>
-
+    <!-- 独家放送 -->
     <div class="privatecontent">
       <div class="privatecontent_title content_title">
         {{ privatecontent.name }}
@@ -26,56 +27,144 @@
           <div
             class="privatecontent_content_item_pic"
             :style="{ backgroundImage: `url(${item.sPicUrl})` }"
-          ></div>
-          <div class="privatecontent_content_item_title">{{ item.name }}</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="recommandSongSheet">
-      <div class="recommandSongSheet_title content_title">
-        推荐歌单<svg-icon type="right-arrow" class="icon"></svg-icon>
-      </div>
-      <div class="recommandSongSheet_content">
-        <div
-          class="recommandSongSheet_content_item"
-          v-for="item in recommandSongSheet.recommend.slice(0, 10)"
-          :key="item.id"
-        >
-          <div
-            class="recommandSongSheet_content_item_pic"
-            :style="{ backgroundImage: `url(${item.picUrl})` }"
-          ></div>
-          <div class="recommandSongSheet_content_item_title">
+          >
+            <svg-icon
+              type="play2"
+              class="privatecontent_content_item_icon"
+            ></svg-icon>
+          </div>
+          <div class="privatecontent_content_item_title item_title">
             {{ item.name }}
           </div>
         </div>
       </div>
     </div>
-
-    <div class="newestMusic">
-      <div class="newestMusic_title content_title">
-        最新音乐<svg-icon type="right-arrow" class="icon"></svg-icon>
+    <!-- 推荐歌单 -->
+    <div class="recommandSongSheet">
+      <div class="recommandSongSheet_title content_title">
+        推荐歌单<svg-icon type="right-arrow" class="icon"></svg-icon>
+      </div>
+      <div class="recommandSongSheet_content">
+        <song-sheet-item
+          v-for="item in recommandSongSheet.recommend.slice(0, 10)"
+          :key="item.id"
+          :item="item"
+          :type="'Individuation'"
+        >
+          <!-- <div
+            class="recommandSongSheet_content_item_pic"
+            :style="{ backgroundImage: `url(${item.picUrl})` }"
+          >
+            <div class="recommandSongSheet_content_item_playcount">
+              <svg-icon
+                type="play3"
+                class="recommandSongSheet_content_item_icon"
+              ></svg-icon
+              >{{
+                item.playcount > 10000
+                  ? Math.floor(item.playcount / 10000) + '万'
+                  : item.playcount
+              }}
+            </div>
+          </div>
+          <div class="recommandSongSheet_content_item_title item_title">
+            {{ item.name }}
+          </div> -->
+        </song-sheet-item>
       </div>
     </div>
+    <!-- 最新歌曲 -->
+    <div class="newestSong">
+      <div class="newestSong_title content_title">
+        最新音乐<svg-icon type="right-arrow" class="icon"></svg-icon>
+      </div>
+      <div class="newestSong_content">
+        <div
+          class="newestSong_content_item"
+          v-for="item in newestSong.result"
+          :key="item.id"
+        >
+          <div
+            class="newestSong_content_item_pic"
+            :style="{ backgroundImage: `url(${item.picUrl})` }"
+          >
+            <svg-icon
+              class="newestSong_content_item_icon"
+              type="play"
+            ></svg-icon>
+          </div>
+          <div class="newestSong_content_item_info">
+            <div class="newestSong_content_item_name">{{ item.name }}</div>
+            <div class="newestSong_content_item_artists">
+              <svg-icon
+                type="SQ"
+                class="newestSong_content_item_sqicon"
+              ></svg-icon>
+              <svg-icon
+                type="MV"
+                class="newestSong_content_item_mvicon"
+                v-if="item.song.mvid != 0"
+              ></svg-icon>
+              <div
+                class="artist"
+                v-for="(artist, index) in item.song.artists.slice(0, 2)"
+                :key="artist.id"
+              >
+                <span
+                  class="slash"
+                  v-if="item.song.artists.length > 1 && index != 0"
+                >
+                  /
+                </span>
+                <span class="text">
+                  {{ artist.name }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 推荐MV -->
     <div class="recommandMV">
       <div class="recommandMV_title content_title">
         推荐MV<svg-icon type="right-arrow" class="icon"></svg-icon>
       </div>
+      <div class="recommandMV_content">
+        <div
+          class="recommandMV_content_item"
+          v-for="item in mv.result"
+          :key="item.id"
+        >
+          <div
+            class="recommandMV_content_item_pic"
+            :style="{ backgroundImage: `url(${item.picUrl})` }"
+          >
+            <div class="recommandMV_content_item_playcount">
+              <svg-icon
+                type="play3"
+                class="recommandMV_content_item_icon"
+              ></svg-icon
+              >{{
+                item.playCount > 10000
+                  ? Math.floor(item.playCount / 10000) + '万'
+                  : item.playCount
+              }}
+            </div>
+          </div>
+          <div class="recommandMV_content_item_title item_title">
+            {{ item.name }}
+          </div>
+          <div class="recommandMV_content_item_artist ">
+            {{ item.artists[0].name }}
+          </div>
+        </div>
+      </div>
     </div>
+    <!-- 播客 -->
     <div class="podcast">
       <div class="podcast_title content_title">
         播客<svg-icon type="right-arrow" class="icon"></svg-icon>
-      </div>
-    </div>
-     <div class="listen">
-      <div class="listen_title content_title">
-        听听<svg-icon type="right-arrow" class="icon"></svg-icon>
-      </div>
-    </div>
-    <div class="look">
-      <div class="look_title content_title">
-        看看<svg-icon type="right-arrow" class="icon"></svg-icon>
       </div>
     </div>
   </div>
@@ -86,15 +175,24 @@ import {
   Component, Vue, Watch, Prop,
 } from 'vue-property-decorator';
 
-import { getPrivateContent, getRecommandSongSheet, getBanner } from '@services';
+import {
+  getPrivateContent,
+  getRecommandSongSheet,
+  getBanner,
+  getNewestSong,
+  getRecommandMV,
+} from '@services/Individuation';
 import { PrivateContent, RecommandSongSheet } from '@interface';
 
 import SvgIcon from '@components/svg/SvgIcon.vue';
 
+import SongSheetItem from '@components/SongSheetItem.vue';
+
 @Component({
-  name: 'Default',
+  name: 'Individuation',
   components: {
     SvgIcon,
+    SongSheetItem,
   },
 })
 export default class Default extends Vue {
@@ -116,6 +214,14 @@ export default class Default extends Vue {
     recommend: [],
   };
 
+  newestSong: any = {
+    category: 0,
+    code: 0,
+    result: [],
+  };
+
+  mv: any = {};
+
   @Watch('name')
   getWatchValue(newVal: string, oldVal: string) {
     console.log(newVal, oldVal);
@@ -125,14 +231,19 @@ export default class Default extends Vue {
   propA!: string;
 
   async created() {
+    const banner = await getBanner();
+    this.banner = banner.data;
     const privatecontent = await getPrivateContent();
     this.privatecontent = privatecontent.data;
     const recommandSongSheet = await getRecommandSongSheet();
     this.recommandSongSheet = recommandSongSheet.data;
-    const banner = await getBanner();
-    this.banner = banner.data;
 
-    console.log(this.banner);
+    const newestSong = await getNewestSong();
+    this.newestSong = newestSong.data;
+
+    const mv = await getRecommandMV();
+    this.mv = mv.data;
+    console.log(this.mv);
   }
 
   mounted() {
@@ -164,16 +275,30 @@ export default class Default extends Vue {
 }
 
 .content_title {
+  width: fit-content;
   display: flex;
   align-items: center;
   font-weight: 1000;
   margin: 30px 0 10px;
+  cursor: pointer;
   .icon {
     margin-left: 7px;
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
     color: rgb(76, 76, 76);
   }
+}
+
+.item_title {
+  &:hover {
+    font-size: 14px;
+    font-weight: 500;
+  }
+  font-weight: 400;
+  width: fit-content;
+  margin-top: 10px;
+  font-size: 14px;
+  cursor: pointer;
 }
 
 .privatecontent {
@@ -187,17 +312,33 @@ export default class Default extends Vue {
       flex: 1;
       padding: 5px;
       &_pic {
+        position: relative;
         height: 1.30719rem;
         // width: 2.30719rem;
         background-repeat: no-repeat;
         background-size: 100%;
         background-position: center center;
         border-radius: 7px;
+        cursor: pointer;
       }
-      &_title {
-        margin-top: 10px;
-        font-size: 14px;
+      &_icon {
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        width: 25px;
+        height: 25px;
       }
+      // &_title {
+      //   &:hover {
+      //     font-size: 14px;
+      //     font-weight: 430;
+      //   }
+      //   font-weight: 300;
+      //   width: fit-content;
+      //   margin-top: 10px;
+      //   font-size: 14px;
+      //   cursor: pointer;
+      // }
     }
   }
 }
@@ -207,23 +348,187 @@ export default class Default extends Vue {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
+    // &_item {
+    //   padding: 10px;
+    //   &:first-child {
+    //     padding-left: 0;
+    //   }
+    //   width: 20%;
+    //   box-sizing: border-box;
+    //   &_pic {
+    //     position: relative;
+    //     height: 1.30719rem;
+    //     background-repeat: no-repeat;
+    //     background-size: 100%;
+    //     background-position: center center;
+    //     border-radius: 7px;
+    //     box-shadow: 0px 10px 40px #8a8a8a inset;
+    //     cursor: pointer;
+    //   }
+    //   &_playcount {
+    //     position: absolute;
+    //     top: 7px;
+    //     right: 7px;
+    //     font-size: 13px;
+    //     text-shadow: 1px 1px 1px #333333;
+    //     color: #fff;
+    //   }
+    //   &_icon {
+    //     vertical-align: bottom;
+    //     text-shadow: 1px 1px 1px #333333;
+    //     width: 13px;
+    //     height: 13px;
+    //     margin-right: 3px;
+    //   }
+
+    //   // &_title {
+    //   //   width: fit-content;
+    //   //   margin-top: 10px;
+    //   //   font-size: 14px;
+    //   //   cursor: pointer;
+    //   // }
+    // }
+  }
+}
+
+.newestSong {
+  &_content {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
     &_item {
-      padding: 5px;
-      &:first-child {
+      width: 32%;
+      &:nth-child(3n + 1) {
         padding-left: 0;
       }
-      width: 20%;
+      &:hover {
+        background-color: rgb(234, 234, 234);
+      }
       box-sizing: border-box;
+      padding: 0 5px;
+      padding-left: 0;
+      padding-right: 5px;
+      margin: 10px 0;
+      margin-right: 10px;
+      display: flex;
+      align-items: center;
+      border-radius: 7px;
       &_pic {
-        height: 1.30719rem;
+        position: relative;
+        height: 50px;
+        width: 50px;
         background-repeat: no-repeat;
         background-size: 100%;
         background-position: center center;
         border-radius: 7px;
+        cursor: pointer;
+      }
+      &_icon {
+        position: absolute;
+        width: 25px;
+        height: 25px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      &_sqicon,
+      &_mvicon {
+        width: 30px;
+        height: 20px;
+        margin-right: 5px;
+        vertical-align: middle; /////添加这个就可以了
+      }
+      &_mvicon {
+        width: 38px;
+
+        cursor: pointer;
+        &:hover {
+          color: #f16f6f;
+        }
+      }
+      &_info {
+        width: 80%;
+        height: 50px;
+        padding-left: 10px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+      }
+      &_name {
+        font-size: 12px;
+      }
+      &_artists {
+        display: flex;
+        align-items: center;
+        .artist {
+          font-size: 12px;
+          color: #929292;
+          cursor: pointer;
+          .text {
+            &:hover {
+              color: #5f5f5f;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.recommandMV {
+  &_content {
+    width: 100%;
+    display: flex;
+    &_item {
+      &:first-child {
+        padding-left: 0;
+      }
+      flex: 1;
+      padding: 5px;
+      &_pic {
+        position: relative;
+        width: 1.699346rem;
+        height: 0.960784rem;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        background-position: center center;
+        border-radius: 7px;
+        cursor: pointer;
+      }
+      &_playcount {
+        position: absolute;
+        top: 7px;
+        right: 7px;
+        font-size: 13px;
+
+        color: #fff;
+      }
+      &_icon {
+        vertical-align: bottom;
+
+        width: 13px;
+        height: 13px;
+        margin-right: 6px;
       }
       &_title {
+        width: 1.699346rem;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
         margin-top: 10px;
         font-size: 14px;
+        cursor: pointer;
+      }
+      &_artist {
+        cursor: pointer;
+        margin-top: 10px;
+        font-size: 12px;
+        color: #676767;
+        &:hover {
+          color: #333;
+        }
       }
     }
   }
@@ -241,6 +546,31 @@ export default class Default extends Vue {
           // width: 300px;
           height: 163px;
           border-radius: 7px;
+        }
+      }
+    }
+  }
+  // .recommandSongSheet {
+  //   &_content {
+  //     &_item {
+  //       &_pic {
+  //         // width: 300px;
+  //         height: 163px;
+  //         border-radius: 7px;
+  //       }
+  //     }
+  //   }
+  // }
+  .recommandMV {
+    &_content {
+      &_item {
+        &_pic {
+          // width: 300px;
+          width: 213px;
+          height: 140px;
+        }
+        &_title {
+          width: 213px;
         }
       }
     }

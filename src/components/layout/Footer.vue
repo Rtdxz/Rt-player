@@ -19,13 +19,13 @@ export default class Default extends Vue {
   @Prop({ default: 'default value' })
   propA!: string;
 
-  created() {
-    console.log('created');
-  }
+  // created() {
+  //   console.log('created');
+  // }
 
-  mounted() {
-    console.log('mounted');
-  }
+  // mounted() {
+  //   console.log('mounted');
+  // }
 }
 </script>
 
@@ -33,7 +33,7 @@ export default class Default extends Vue {
 // @import './index.scss';
 @import '~@/assets/css/index.scss';
 .footer {
-  height: 75px;
+  height: 60px;
   width: 100%;
   background-color: #fff;
   border: 1px solid $border-color;

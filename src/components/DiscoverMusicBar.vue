@@ -9,7 +9,9 @@
     <div class="discover-bar_item">主播电台</div> -->
       <div
         class="discover-bar_item"
-        :class="{ 'discover-bar_item_active': curIndex == index }"
+        :class="{
+          'discover-bar_item_active': $route.path.indexOf(item.path) != -1,
+        }"
         v-for="(item, index) in tabList"
         :key="index"
         @click="clickTab(item, index)"
@@ -39,13 +41,13 @@ export default class Default extends Vue {
   @Prop({ default: 'default value' })
   propA!: string;
 
-  created() {
-    console.log('created');
-  }
+  // created() {
+  //   console.log('created');
+  // }
 
-  mounted() {
-    console.log('mounted');
-  }
+  // mounted() {
+  //   console.log('mounted');
+  // }
 
   tabList = [
     {
@@ -58,7 +60,7 @@ export default class Default extends Vue {
     },
     {
       title: '排行榜',
-      path: 'RankingList',
+      path: 'TopList',
     },
     {
       title: '歌手',
@@ -70,10 +72,7 @@ export default class Default extends Vue {
     },
   ];
 
-  curIndex = 0;
-
   clickTab(item: Tab, index: number) {
-    this.curIndex = index;
     this.$router.push(item.path);
   }
 }

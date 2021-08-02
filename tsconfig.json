@@ -18,6 +18,7 @@
       "@/*": ["*", "src/*"],
       "xhr-axios": ["common/xhr-axios"],
       "@services": ["src/services"],
+      "@services/*": ["src/services/*"],
       "@interface": ["src/interfaces"],
       "@constant": ["src/constants"],
       "@store": ["src/store"]

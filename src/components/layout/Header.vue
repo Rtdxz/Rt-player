@@ -23,13 +23,13 @@ export default class Default extends Vue {
   @Prop({ default: 'default value' })
   propA!: string;
 
-  created() {
-    console.log('created');
-  }
+  // created() {
+  //   console.log('created');
+  // }
 
-  mounted() {
-    console.log('mounted');
-  }
+  // mounted() {
+  //   console.log('mounted');
+  // }
 
   async login() {
     const res = await login();
@@ -47,7 +47,7 @@ export default class Default extends Vue {
 // $red: #ec4141;
 .header {
   width: 100%;
-  height: 70px;
+  height: 60px;
   background-color: $theme-red;
 }
 </style>

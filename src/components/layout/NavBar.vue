@@ -38,13 +38,13 @@ export default class Default extends Vue {
   @Prop({ default: 'default value' })
   propB!: string;
 
-  created() {
-    console.log('created');
-  }
+  // created() {
+  //   console.log('created');
+  // }
 
-  mounted() {
-    console.log('mounted');
-  }
+  // mounted() {
+  //   console.log('mounted');
+  // }
 }
 </script>
 

@@ -6,11 +6,21 @@
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import SvgIconCloud from './SvgIconCloud.vue';
 import SvgIconRightArrow from './SvgIconRightArrow.vue';
+import SvgIconPlay from './SvgIconPlay.vue';
+import SvgIconPlay2 from './SvgIconPlay2.vue';
+import SvgIconPlay3 from './SvgIconPlay3.vue';
+import SvgIconMV from './SvgIconMV.vue';
+import SvgIconSQ from './SvgIconSQ.vue';
 
 @Component({
   components: {
     SvgIconCloud,
     SvgIconRightArrow,
+    SvgIconPlay,
+    SvgIconPlay2,
+    SvgIconPlay3,
+    SvgIconMV,
+    SvgIconSQ,
   },
 })
 export default class SvgIcon extends Vue {
