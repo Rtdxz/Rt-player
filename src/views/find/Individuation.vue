@@ -107,7 +107,7 @@
               ></svg-icon>
               <div
                 class="artist"
-                v-for="(artist, index) in item.song.artists.slice(0, 2)"
+                v-for="(artist, index) in item.song.artists"
                 :key="artist.id"
               >
                 <span
@@ -256,7 +256,7 @@ export default class Default extends Vue {
 // @import './index.scss';
 .el-carousel__item {
   border-radius: 10px;
-  background-size: 100%;
+  background-size: 100% 100%;
 }
 .el-carousel__item h3 {
   color: #475669;
@@ -418,7 +418,7 @@ export default class Default extends Vue {
         height: 50px;
         width: 50px;
         background-repeat: no-repeat;
-        background-size: 100%;
+        background-size: 100% 100%;
         background-position: center center;
         border-radius: 7px;
         cursor: pointer;
@@ -434,6 +434,7 @@ export default class Default extends Vue {
 
       &_sqicon,
       &_mvicon {
+        flex-shrink: 0;
         width: 30px;
         height: 20px;
         margin-right: 5px;
@@ -460,12 +461,17 @@ export default class Default extends Vue {
         font-size: 12px;
       }
       &_artists {
+        width: 100%;
         display: flex;
         align-items: center;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
         .artist {
           font-size: 12px;
           color: #929292;
           cursor: pointer;
+
           .text {
             &:hover {
               color: #5f5f5f;

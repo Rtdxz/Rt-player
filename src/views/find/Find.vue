@@ -45,10 +45,16 @@ export default class Default extends Vue {
 .container {
   width: 100%;
   height: 515px;
-  padding: 30px 0.784314rem;
-  padding-bottom: 100px;
+  padding: 30px 0.784314rem 0;
+  // padding-bottom: 100px;
   overflow-x: hidden;
   // overflow-y: scroll;
   box-sizing: border-box;
+}
+
+@media screen and (max-width: 1250px) {
+  .container {
+    padding: 30px 98px;
+  }
 }
 </style>

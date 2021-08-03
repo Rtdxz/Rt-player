@@ -48,7 +48,7 @@ export default class Default extends Vue {
   }
 
   // 播放量换算
-  playCount(playcount) {
+  playCount(playcount: any) {
     return playcount > 10000 ? `${Math.floor(playcount / 10000)}万` : playcount;
   }
 
@@ -61,7 +61,7 @@ export default class Default extends Vue {
   item: any;
 
   @Prop({ default: 'Individuation' })
-  type: string;
+  type?: string;
   // created() { }
   // mounted() { }
 }

@@ -11,6 +11,7 @@ import SvgIconPlay2 from './SvgIconPlay2.vue';
 import SvgIconPlay3 from './SvgIconPlay3.vue';
 import SvgIconMV from './SvgIconMV.vue';
 import SvgIconSQ from './SvgIconSQ.vue';
+import SvgIconSinger from './SvgIconSinger.vue';
 
 @Component({
   components: {
@@ -21,6 +22,7 @@ import SvgIconSQ from './SvgIconSQ.vue';
     SvgIconPlay3,
     SvgIconMV,
     SvgIconSQ,
+    SvgIconSinger,
   },
 })
 export default class SvgIcon extends Vue {

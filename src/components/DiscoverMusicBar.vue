@@ -64,7 +64,7 @@ export default class Default extends Vue {
     },
     {
       title: '歌手',
-      path: 'Singer',
+      path: 'Artist',
     },
     {
       title: '最新音乐',

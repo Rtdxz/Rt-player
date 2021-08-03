@@ -5,7 +5,7 @@ import Find from '@views/find/Find.vue';
 import Individuation from '@views/find/Individuation.vue';
 import SongSheet from '@views/find/SongSheet.vue';
 import TopList from '@views/find/TopList.vue';
-import Singer from '@views/find/Singer.vue';
+import Artist from '@views/find/Artist.vue';
 import NewestMusic from '@views/find/NewestMusic.vue';
 
 Vue.use(VueRouter);
@@ -37,8 +37,8 @@ const routes: Array<RouteConfig> = [
         component: TopList,
       },
       {
-        path: 'Singer',
-        component: Singer,
+        path: 'Artist',
+        component: Artist,
       },
       {
         path: 'NewestMusic',
