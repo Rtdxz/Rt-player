@@ -162,11 +162,11 @@
       </div>
     </div>
     <!-- 播客 -->
-    <div class="podcast">
+    <!-- <div class="podcast">
       <div class="podcast_title content_title">
         播客<svg-icon type="right-arrow" class="icon"></svg-icon>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 

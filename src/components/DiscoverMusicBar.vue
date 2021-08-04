@@ -93,19 +93,19 @@ export default class Default extends Vue {
     // height: 40px;
     // padding: 0 150px;
     // box-sizing: border-box;
-    justify-content: space-around;
-    margin: 0 auto;
+    // justify-content: space-around;
+    // margin: 0 auto;
   }
   &_item {
     height: 60px;
     margin: 0 20px;
-    flex: 1;
+    // flex: 1;
     text-align: center;
     line-height: 60px;
     cursor: pointer;
 
     &_active {
-      border-bottom: 2px solid $theme-red;
+      border-bottom: 4px solid $theme-red;
       font-weight: 1000;
     }
   }
