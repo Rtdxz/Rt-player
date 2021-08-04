@@ -1,6 +1,22 @@
 <template>
   <div class="header">
-    <el-button @click="login">login</el-button>
+    <div class="header-logo">
+      <svg-icon type="ICloud" class="icon"></svg-icon>
+    </div>
+    <div class="header-route">
+      <div class="header-route_button" @click="$router.go(-1)">
+        <svg-icon type="left-arrow" class="icon"></svg-icon>
+      </div>
+      <div class="header-route_button" @click="$router.go(1)">
+        <svg-icon type="right-arrow" class="icon"></svg-icon>
+      </div>
+      <div class="header-route_search">
+        <svg-icon type="search" class="icon"></svg-icon>
+        <input type="text" />
+      </div>
+    </div>
+    <div class="header-user"></div>
+    <el-button @click="login" class="header-login">login</el-button>
   </div>
 </template>
 
@@ -11,8 +27,13 @@ import {
 
 import { login } from '@services';
 
+import SvgIcon from '@components/svg/SvgIcon.vue';
+
 @Component({
   name: 'Header',
+  components: {
+    SvgIcon,
+  },
 })
 export default class Default extends Vue {
   @Watch('name')
@@ -46,8 +67,78 @@ export default class Default extends Vue {
 @import '~@/assets/css/index.scss';
 // $red: #ec4141;
 .header {
+  position: relative;
   width: 100%;
   height: 60px;
   background-color: $theme-red;
+  display: flex;
+  padding: 0 70px;
+  align-items: center;
+  box-sizing: border-box;
+  &-logo {
+    cursor: pointer;
+    position: relative;
+    width: 100px;
+    height: 20px;
+    margin-top: 3px;
+    background: url('~@assets/img/logo.png') no-repeat;
+    background-size: 100% 100%;
+    .icon {
+      position: absolute;
+      top: -5px;
+      left: -40px;
+      width: 30px;
+      height: 30px;
+    }
+  }
+  &-route {
+    margin-left: 70px;
+    display: flex;
+    align-items: center;
+    &_button {
+      display: flex;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background-color: rgba(41, 41, 41, 0.1);
+      margin: 0 5px;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      .icon {
+        width: 10px;
+        height: 10px;
+        color: #fff;
+      }
+    }
+    &_search {
+      position: relative;
+      margin-left: 10px;
+      .icon {
+        position: absolute;
+        top: 7.5px;
+        left: 10px;
+        width: 15px;
+        height: 15px;
+        color: #fff;
+      }
+      input {
+        width: 170px;
+        height: 30px;
+        padding: 5px 30px;
+        box-sizing: border-box;
+        background-color: rgba(41, 41, 41, 0.1);
+        font-size: 13px;
+        color: #fff;
+        border-radius: 15px;
+        border: 1px;
+        outline: 0;
+      }
+    }
+  }
+  &-login {
+    position: absolute;
+    right: 30px;
+  }
 }
 </style>

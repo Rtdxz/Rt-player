@@ -6,7 +6,9 @@
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import SvgIconCloud from './SvgIconCloud.vue';
 import SvgIconCloud2 from './SvgIconCloud2.vue';
+import SvgIconICloud from './SvgIconICloud.vue';
 import SvgIconRightArrow from './SvgIconRightArrow.vue';
+import SvgIconLeftArrow from './SvgIconLeftArrow.vue';
 import SvgIconPlay from './SvgIconPlay.vue';
 import SvgIconPlay2 from './SvgIconPlay2.vue';
 import SvgIconPlay3 from './SvgIconPlay3.vue';
@@ -15,6 +17,7 @@ import SvgIconSQ from './SvgIconSQ.vue';
 import SvgIconSinger from './SvgIconSinger.vue';
 import SvgIconMyCollect from './SvgIconMyCollect.vue';
 import SvgIconPlayList from './SvgIconPlayList.vue';
+import SvgIconSearch from './SvgIconSearch.vue';
 
 import SvgIconHeart from './SvgIconHeart.vue';
 
@@ -22,7 +25,9 @@ import SvgIconHeart from './SvgIconHeart.vue';
   components: {
     SvgIconCloud,
     SvgIconCloud2,
+    SvgIconICloud,
     SvgIconRightArrow,
+    SvgIconLeftArrow,
     SvgIconPlay,
     SvgIconPlay2,
     SvgIconPlay3,
@@ -32,6 +37,7 @@ import SvgIconHeart from './SvgIconHeart.vue';
     SvgIconMyCollect,
     SvgIconPlayList,
     SvgIconHeart,
+    SvgIconSearch,
   },
 })
 export default class SvgIcon extends Vue {

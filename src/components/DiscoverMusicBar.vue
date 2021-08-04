@@ -82,7 +82,7 @@ export default class Default extends Vue {
 @import '~@/assets/css/index.scss';
 .discover-bar {
   width: 100%;
-
+  margin-bottom: 10px;
   // height: 40px;
   // padding: 0 150px;
   // box-sizing: border-box;
