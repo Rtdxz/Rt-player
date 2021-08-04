@@ -101,7 +101,7 @@ export default class Default extends Vue {
     margin: 0 20px;
     // flex: 1;
     text-align: center;
-    line-height: 60px;
+    line-height: 80px;
     cursor: pointer;
 
     &_active {
