@@ -44,7 +44,7 @@ export default class Default extends Vue {
 
 .container {
   width: 100%;
-  height: 515px;
+  height: calc(100vh - 230px);
   padding: 30px 0.784314rem 0;
   // padding-bottom: 100px;
   overflow-x: hidden;
@@ -54,7 +54,7 @@ export default class Default extends Vue {
 
 @media screen and (max-width: 1250px) {
   .container {
-    padding: 30px 98px;
+    padding: 30px 98px 0;
   }
 }
 </style>

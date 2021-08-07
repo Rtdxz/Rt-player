@@ -37,6 +37,7 @@ export default class Default extends Vue {
 <style scoped lang="scss">
 // @import './index.scss';
 .main {
+  height: calc(100vh - 135px);
   width: calc(100vw - 200px);
   min-width: 1100px;
 }

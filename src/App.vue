@@ -33,9 +33,12 @@ div {
   font-size: 20px;
 }
 .middle {
-  height: calc(100vh - 120px);
+  height: calc(100vh - 135px);
   width: 100%;
   overflow: hidden;
   display: flex;
+}
+html {
+  overflow-x: hidden;
 }
 </style>

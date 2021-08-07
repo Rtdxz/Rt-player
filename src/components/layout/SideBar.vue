@@ -166,7 +166,7 @@ export default class Default extends Vue {
 @import '~@/assets/css/scroll.scss';
 .sidebar {
   width: 200px;
-  height: calc(100vh - 120px);
+  height: calc(100vh - 135px);
   flex: 0 0 200px;
   padding-top: 5px;
   // float: left;

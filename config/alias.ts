@@ -9,5 +9,6 @@ module.exports = {
   '@services': 'src/services',
   '@constant': 'src/constants',
   '@interface': 'src/interfaces',
-  '@store': 'src/store'
+  '@store': 'src/store',
+  '@utils':'src/utils'
 };

@@ -9,6 +9,7 @@ import 'ASSETS/css/normalize.css';
 
 Vue.config.productionTip = false;
 Vue.use(ele);
+
 new Vue({
   router,
   store,

@@ -13,10 +13,13 @@ import SvgIconControllerRandomPlay from './SvgIconControllerRandomPlay.vue';
 import SvgIconControllerSingleLoop from './SvgIconControllerSingleLoop.vue';
 import SvgIconControllerVolume from './SvgIconControllerVolume.vue';
 import SvgIconControllerWord from './SvgIconControllerWord.vue';
+import SvgIconControllerPause from './SvgIconControllerPause.vue';
+import SvgIconControllerMute from './SvgIconControllerMute.vue';
 
 @Component({
   components: {
     SvgIconControllerPlay,
+    SvgIconControllerPause,
     SvgIconControllerPre,
     SvgIconControllerBeckoning,
     SvgIconControllerNext,
@@ -25,6 +28,7 @@ import SvgIconControllerWord from './SvgIconControllerWord.vue';
     SvgIconControllerSingleLoop,
     SvgIconControllerVolume,
     SvgIconControllerWord,
+    SvgIconControllerMute,
   },
 })
 export default class SvgIcon extends Vue {
@@ -41,5 +45,6 @@ export default class SvgIcon extends Vue {
 // @import './index.scss';
 .svg-icon-controller {
   fill: currentColor;
+  cursor: pointer;
 }
 </style>
