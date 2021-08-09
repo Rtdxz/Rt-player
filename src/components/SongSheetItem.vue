@@ -1,5 +1,8 @@
 <template>
-  <div class="SongSheet_item">
+  <div
+    class="SongSheet_item"
+    @click="$router.push(`/PlayListDetail/${item.id}`)"
+  >
     <div
       class="SongSheet_item_pic"
       :style="{

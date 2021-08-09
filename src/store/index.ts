@@ -6,8 +6,16 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     cookie: '',
+    currentMusic: {},
+    currentMusicUrl: '',
+    isLoggin: false,
+    playList: [],
   },
-  mutations: {},
+  mutations: {
+    changeCurrentMusicUrl(state, musicUrl) {
+      state.currentMusicUrl = musicUrl;
+    },
+  },
   actions: {},
   modules: {},
 });

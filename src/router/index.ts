@@ -8,6 +8,8 @@ import TopList from '@views/find/TopList.vue';
 import Artist from '@views/find/Artist.vue';
 import NewestMusic from '@views/find/NewestMusic.vue';
 
+import PlayListDetail from '@views/PlayListDetail.vue';
+
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
@@ -45,6 +47,11 @@ const routes: Array<RouteConfig> = [
         component: NewestMusic,
       },
     ],
+  },
+  {
+    path: '/PlayListDetail/:id',
+    name: 'PlayListDetail',
+    component: PlayListDetail,
   },
   {
     path: '/about',

@@ -18,8 +18,16 @@ import SvgIconSinger from './SvgIconSinger.vue';
 import SvgIconMyCollect from './SvgIconMyCollect.vue';
 import SvgIconPlayList from './SvgIconPlayList.vue';
 import SvgIconSearch from './SvgIconSearch.vue';
+import SvgIconCollect from './SvgIconCollect.vue';
+import SvgIconCollectDone from './SvgIconCollectDone.vue';
+import SvgIconShare from './SvgIconShare.vue';
+import SvgIconDownload from './SvgIconDownload.vue';
+import SvgIconDownload2 from './SvgIconDownload2.vue';
+
+import SvgIconPlay4 from './SvgIconPlay4.vue';
 
 import SvgIconHeart from './SvgIconHeart.vue';
+import SvgIconHeart2 from './SvgIconHeart2.vue';
 
 @Component({
   components: {
@@ -31,13 +39,20 @@ import SvgIconHeart from './SvgIconHeart.vue';
     SvgIconPlay,
     SvgIconPlay2,
     SvgIconPlay3,
+    SvgIconPlay4,
     SvgIconMV,
     SvgIconSQ,
     SvgIconSinger,
     SvgIconMyCollect,
     SvgIconPlayList,
     SvgIconHeart,
+    SvgIconHeart2,
     SvgIconSearch,
+    SvgIconCollect,
+    SvgIconCollectDone,
+    SvgIconShare,
+    SvgIconDownload,
+    SvgIconDownload2,
   },
 })
 export default class SvgIcon extends Vue {

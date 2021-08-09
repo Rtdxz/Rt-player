@@ -22,7 +22,11 @@ axios.interceptors.response.use((res) => {
 }, (err) => { // 当响应异常时做一些处理
   if (err && err.response) {
     switch (err.response.status) {
-      case 400: err.message = '请求错误(400)'; break;
+      case 400:
+        // console.log(err,err.response)
+        err.message = err.response.data.message;
+        // err.message = '请求错误(400)';
+        break;
 
       case 401: err.message = '未授权，请重新登录(401)'; break;
 
