@@ -25,7 +25,10 @@
           </div>
         </div>
         <div class="playListDetail-info_operation">
-          <div class="playListDetail-info_operation_play button">
+          <div
+            class="playListDetail-info_operation_play button"
+            @click="playListAllMusic"
+          >
             <svg-icon type="play4" class="icon"></svg-icon>播放全部
           </div>
           <div class="playListDetail-info_operation_collect button">
@@ -103,7 +106,7 @@
             class="playListDetail-content_item"
             v-for="(item, index) in playListContent.songs"
             :key="item.id"
-            @dblclick="getMusicUrl(item.id)"
+            @dblclick="playMusic(item)"
           >
             <span class="playListDetail-content_item_rank">{{
               Rank(Number(index) + 1)
@@ -156,6 +159,8 @@ import {
 import TabBar from '@components/TabBar.vue';
 import SvgIcon from '@components/svg/SvgIcon.vue';
 
+import { PublicPlay } from '@mixins';
+
 import {
   getPlayListDetailInfo,
   getPlayListContent,
@@ -170,7 +175,7 @@ import { dateFormat, timeFormat, Rank } from '@utils';
     SvgIcon,
   },
 })
-export default class Default extends Vue {
+export default class Default extends PublicPlay {
   isHideDescription = true;
 
   ids = '';
@@ -187,9 +192,27 @@ export default class Default extends Vue {
 
   Rank = Rank;
 
-  getMusicUrl(id: string) {
-    console.log(id);
+  playListAllMusic() {
+    const songList = this.playListContent.songs.filter(
+      (ele: any) => !ele.noCopyrightRcmd,
+    );
+    this.$store.commit('addAllMusicToList', songList);
+    this.playMusic(songList[0]);
   }
+
+  // playMusic(musicDetail: any) {
+  //   if (this.$store.state.currentMusicId === musicDetail.id) return;
+  //   getMusicUrl(musicDetail.id).then((res) => {
+  //     const musicInfo = res.data.data[0];
+
+  //     this.$store.commit('changeCurrentMusicId', musicDetail.id);
+  //     this.$store.commit('changeCurrentMusic', musicDetail);
+  //     this.$store.commit('changeCurrentMusicInfo', musicInfo);
+
+  //     this.$store.commit('changePlayStatus', true);
+  //     this.$store.commit('addMusicToList', musicDetail);
+  //   });
+  // }
 
   tabBarList = [
     {
@@ -217,14 +240,14 @@ export default class Default extends Vue {
     this.playListInfo.trackIds.forEach((ele: any) => {
       this.ids += `${ele.id},`;
     });
-    console.log(this.ids);
+    // console.log(this.ids);
     const list = await getPlayListContent(
       this.ids.substr(0, this.ids.length - 1),
     );
 
     this.playListContent = list.data;
     this.isLoading = false;
-    console.log(this.playListContent.songs);
+    // console.log(this.playListContent.songs);
   }
 
   @Prop({ default: 'default value' })
@@ -238,17 +261,17 @@ export default class Default extends Vue {
     const res = await getPlayListDetailInfo(this.$route.params.id);
     this.playListInfo = res.data.playlist;
     this.playListInfo.trackIds.forEach((ele: any) => {
-      console.log(ele.id);
+      // console.log(ele.id);
       this.ids += `${ele.id},`;
     });
-    console.log(this.ids);
+    // console.log(this.ids);
     const list = await getPlayListContent(
       this.ids.substr(0, this.ids.length - 1),
     );
 
     this.playListContent = list.data;
     this.isLoading = false;
-    console.log(this.playListContent.songs);
+    // console.log(this.playListContent.songs);
   }
   // mounted() { }
 }
@@ -468,11 +491,13 @@ export default class Default extends Vue {
       box-sizing: border-box;
       border-radius: 1px;
       &_name {
-        display: flex;
-        cursor: pointer;
+        // display: flex;
         font-size: 14px;
         // width: 400px;
-        flex: 1 1;
+
+        height: 40px;
+        line-height: 40px;
+        // align-items: center;
         .sqicon,
         .mvicon {
           flex-shrink: 0;

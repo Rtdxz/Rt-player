@@ -10,5 +10,6 @@ module.exports = {
   '@constant': 'src/constants',
   '@interface': 'src/interfaces',
   '@store': 'src/store',
-  '@utils':'src/utils'
+  '@utils': 'src/utils',
+  '@mixins':'src/mixins'
 };

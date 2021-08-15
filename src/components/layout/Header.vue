@@ -53,6 +53,7 @@ export default class Default extends Vue {
   // }
 
   async login() {
+    console.log('a');
     const res = await login();
 
     const { cookie } = res.data;

@@ -15,6 +15,7 @@ import SvgIconControllerVolume from './SvgIconControllerVolume.vue';
 import SvgIconControllerWord from './SvgIconControllerWord.vue';
 import SvgIconControllerPause from './SvgIconControllerPause.vue';
 import SvgIconControllerMute from './SvgIconControllerMute.vue';
+import SvgIconControllerListLoop from './SvgIconControllerListLoop.vue';
 
 @Component({
   components: {
@@ -29,6 +30,7 @@ import SvgIconControllerMute from './SvgIconControllerMute.vue';
     SvgIconControllerVolume,
     SvgIconControllerWord,
     SvgIconControllerMute,
+    SvgIconControllerListLoop,
   },
 })
 export default class SvgIcon extends Vue {

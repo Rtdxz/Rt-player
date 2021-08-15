@@ -1,21 +1,15 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+// import { Message } from 'element-ui';
+
+import { state } from './state';
+import { mutations } from './mutations';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {
-    cookie: '',
-    currentMusic: {},
-    currentMusicUrl: '',
-    isLoggin: false,
-    playList: [],
-  },
-  mutations: {
-    changeCurrentMusicUrl(state, musicUrl) {
-      state.currentMusicUrl = musicUrl;
-    },
-  },
+  state,
+  mutations,
   actions: {},
   modules: {},
 });
