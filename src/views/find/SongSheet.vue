@@ -89,7 +89,7 @@ export default class Default extends Vue {
   line-height: 28px;
   font-weight: 400;
   font-size: 12px;
-  min-width: 10px;
+  // min-width: 10px;
   margin: 0 2px;
   border: 1px solid #e6e6e6;
   border-radius: 4px;

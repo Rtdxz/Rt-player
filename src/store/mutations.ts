@@ -48,4 +48,10 @@ export const mutations = {
   addAllMusicToList(state: State, musicList: any[]) {
     state.playList = musicList;
   },
+  clearPlayList(state: State) {
+    state.playList = [];
+    state.remainPlayList = [];
+    state.currentMusicUrl = '';
+    state.isPlaying = false;
+  },
 };

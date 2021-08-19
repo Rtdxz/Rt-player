@@ -6,7 +6,7 @@
         v-for="(item, index) in tabBarList"
         :key="item.index"
         :class="{ 'tabBar-item_active': currentIndex === index }"
-        @click="currentIndex = index"
+        @click="changeTab(index)"
       >
         {{ item.title }}
       </div>
@@ -20,10 +20,12 @@ import {
 } from 'vue-property-decorator';
 
 @Component({
-  name: 'Default',
+  name: 'TabBar',
 })
 export default class Default extends Vue {
-  currentIndex = 0;
+  changeTab(index: any) {
+    this.$emit('changeTab', index);
+  }
 
   @Watch('name')
   getWatchValue(newVal: string, oldVal: string) {
@@ -32,6 +34,9 @@ export default class Default extends Vue {
 
   @Prop({ default: [] })
   tabBarList!: any[];
+
+  @Prop({ default: 0 })
+  currentIndex!: number;
   // created() { }
   // mounted() { }
 }

@@ -3,8 +3,12 @@
     <div class="playListTable-title">
       <div class="playListTable-title_top">当前播放</div>
       <div class="playListTable-title_bottom">
-        <div class="playListTable-title_bottom_count">共9首</div>
-        <div class="playListTable-title_bottom_clear">清空列表</div>
+        <div class="playListTable-title_bottom_count">
+          共{{ playList.length }}首
+        </div>
+        <div class="playListTable-title_bottom_clear" @click="clearPlayList">
+          清空列表
+        </div>
       </div>
     </div>
     <div class="playListTable-content">
@@ -37,9 +41,9 @@
           </div>
           {{ item.artist }}
         </div>
-        <div class="playListTable-content_item_album item album">
+        <!-- <div class="playListTable-content_item_album item album">
           {{ item.al.name }}
-        </div>
+        </div> -->
         <div class="playListTable-content_item_time item time">
           {{ timeFormat(Math.floor(item.dt / 1000)) }}
         </div>
@@ -52,18 +56,25 @@
 import {
   Component, Vue, Watch, Prop,
 } from 'vue-property-decorator';
-
+import SvgIcon from '@components/svg/SvgIcon.vue';
 import { mapState } from 'vuex';
 import { PublicPlay } from '@mixins';
 
 @Component({
   name: 'PlayListTable',
+  components: {
+    SvgIcon,
+  },
   computed: {
     ...mapState(['playList']),
   },
 })
 export default class Default extends PublicPlay {
   playList!: any[];
+
+  clearPlayList() {
+    this.$store.commit('clearPlayList');
+  }
 
   @Watch('name')
   getWatchValue(newVal: string, oldVal: string) {
@@ -114,6 +125,20 @@ export default class Default extends PublicPlay {
   }
 
   &-content {
+    position: relative;
+
+    height: calc(100vh - 230px);
+    overflow-y: auto;
+    // padding: 0 13px;
+    &::before {
+      content: '';
+      width: 90%;
+      height: 1px;
+      position: absolute;
+      top: 0;
+      left: 20px;
+      background-color: #f2f2f2;
+    }
     &_item {
       white-space: nowrap;
       overflow: hidden;
@@ -127,7 +152,7 @@ export default class Default extends PublicPlay {
 
       width: 100%;
       height: 40px;
-      padding-left: 30px;
+      padding-left: 22px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -135,9 +160,10 @@ export default class Default extends PublicPlay {
       border-radius: 1px;
       &_name {
         // display: flex;
-        font-size: 14px;
-        // width: 400px;
-
+        font-size: 12px;
+        width: 190px;
+        overflow: hidden;
+        text-overflow: ellipsis;
         height: 40px;
         line-height: 40px;
         // align-items: center;
@@ -167,22 +193,22 @@ export default class Default extends PublicPlay {
           color: #9b9b9b;
           overflow: hidden;
           text-overflow: ellipsis;
-          margin-left: 10px;
+          // margin-left: 10px;
         }
       }
 
       &_artists {
         height: 40px;
-        width: 200px;
+        width: 120px;
         display: flex;
         align-items: center;
         white-space: nowrap;
         overflow-x: hidden;
         overflow-y: visible;
-        // margin-right: 30px;
+        margin-left: 10px;
         text-overflow: ellipsis;
         .artist {
-          font-size: 13px;
+          font-size: 12px;
           color: #656565;
           cursor: pointer;
           .text {
@@ -192,28 +218,30 @@ export default class Default extends PublicPlay {
           }
         }
       }
-      &_rank {
-        font-size: 13px;
-        color: #c3c3c4;
-        // margin-right: 30px;
-      }
+      // &_rank {
+      //   font-size: 12px;
+      //   color: #c3c3c4;
+      //   // margin-right: 30px;
+      // }
 
-      &_album {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        font-size: 13px;
-        color: #6e6e6e;
-        width: 150px;
-        // margin-right: 50px;
-        cursor: pointer;
-        &:hover {
-          color: #343434;
-        }
-      }
+      // &_album {
+      //   overflow: hidden;
+      //   text-overflow: ellipsis;
+      //   font-size: 13px;
+      //   color: #6e6e6e;
+      //   width: 150px;
+      //   // margin-right: 50px;
+      //   cursor: pointer;
+      //   &:hover {
+      //     color: #343434;
+      //   }
+      // }
       &_time {
-        font-size: 13px;
+        width: 85px;
+        margin-left: 30px;
+        font-size: 12px;
 
-        color: #969697;
+        color: #cfcfcf;
       }
     }
   }

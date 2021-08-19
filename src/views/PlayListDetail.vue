@@ -84,11 +84,15 @@
       </div>
     </div>
     <div class="playListDetail-tabBar">
-      <tab-bar :tabBarList="tabBarList"></tab-bar>
+      <tab-bar
+        :tabBarList="tabBarList"
+        @changeTab="changeContent"
+        :currentIndex="currentContent"
+      ></tab-bar>
     </div>
 
     <div class="playListDetail-content">
-      <div class="playListDetail-content_list">
+      <div class="playListDetail-content_list" v-if="currentContent == 0">
         <div class="playListDetail-content_title">
           <div class="playListDetail-content_title_item title">音乐标题</div>
           <div class="playListDetail-content_title_item artists">歌手</div>
@@ -147,6 +151,8 @@
           </div>
         </div>
       </div>
+      <Comment v-else-if="currentContent == 1" :comment="comment"> </Comment>
+      <div class="playListDetail-content_collector" v-else></div>
     </div>
   </div>
 </template>
@@ -158,12 +164,14 @@ import {
 
 import TabBar from '@components/TabBar.vue';
 import SvgIcon from '@components/svg/SvgIcon.vue';
+import Comment from '@components/PlayListDetail/Comment.vue';
 
 import { PublicPlay } from '@mixins';
 
 import {
   getPlayListDetailInfo,
   getPlayListContent,
+  getComment,
 } from '@services/PlayListDetail';
 
 import { dateFormat, timeFormat, Rank } from '@utils';
@@ -173,10 +181,17 @@ import { dateFormat, timeFormat, Rank } from '@utils';
   components: {
     TabBar,
     SvgIcon,
+    Comment,
   },
 })
 export default class Default extends PublicPlay {
+  commentInfo = '';
+
+  comment: any;
+
   isHideDescription = true;
+
+  currentContent = 0;
 
   ids = '';
 
@@ -198,6 +213,11 @@ export default class Default extends PublicPlay {
     );
     this.$store.commit('addAllMusicToList', songList);
     this.playMusic(songList[0]);
+  }
+
+  changeContent(index: any) {
+    console.log(index);
+    this.currentContent = index;
   }
 
   // playMusic(musicDetail: any) {
@@ -231,10 +251,13 @@ export default class Default extends PublicPlay {
 
   @Watch('$route')
   async getWatchValue(newVal: string, oldVal: string) {
+    this.currentContent = 0;
+    this.comment = {};
     this.ids = '';
     this.playListContent = {};
     this.isLoading = true;
     // console.log(newVal, oldVal);
+
     const res = await getPlayListDetailInfo(this.$route.params.id);
     this.playListInfo = res.data.playlist;
     this.playListInfo.trackIds.forEach((ele: any) => {
@@ -248,12 +271,16 @@ export default class Default extends PublicPlay {
     this.playListContent = list.data;
     this.isLoading = false;
     // console.log(this.playListContent.songs);
+    const comment = await getComment(this.$route.params.id);
+    this.comment = comment.data;
   }
 
   @Prop({ default: 'default value' })
   propA!: string;
 
   async created() {
+    this.currentContent = 0;
+    this.comment = {};
     this.ids = '';
     this.playListContent = {};
     this.isLoading = true;
@@ -271,6 +298,9 @@ export default class Default extends PublicPlay {
 
     this.playListContent = list.data;
     this.isLoading = false;
+
+    const comment = await getComment(this.$route.params.id);
+    this.comment = comment.data;
     // console.log(this.playListContent.songs);
   }
   // mounted() { }
@@ -612,5 +642,14 @@ export default class Default extends PublicPlay {
 }
 .loading_color .el-loading-spinner .el-loading-text {
   color: #676767;
+}
+
+.el-textarea__inner:focus {
+  border-color: #e5e5e5;
+}
+.el-textarea__inner {
+  height: 80px;
+  border-radius: 2px;
+  border-color: #e5e5e5;
 }
 </style>

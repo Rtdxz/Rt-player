@@ -5,6 +5,7 @@ export const getPlayListDetailInfo = (id: string) => request({
   url: '/playlist/detail',
   params: {
     id,
+    cookie: sessionStorage.getItem('cookie'),
   },
 });
 
@@ -19,6 +20,14 @@ export const getPlayListContent = (ids: string) => request({
 export const getMusicUrl = (id: string) => request({
   method: 'get',
   url: '/song/url',
+  params: {
+    id,
+  },
+});
+
+export const getComment = (id: string) => request({
+  method: 'get',
+  url: '/comment/playlist',
   params: {
     id,
   },

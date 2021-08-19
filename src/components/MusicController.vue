@@ -191,7 +191,7 @@ export default class Default extends PublicPlay {
     switch (this.playMode) {
       // 列表顺序播放
       case 0:
-        this.orderPlay(type, isClick, false);
+        this.orderPlay(0, isClick, false);
         break;
       // 心动模式
       case 1:
@@ -199,11 +199,11 @@ export default class Default extends PublicPlay {
         break;
       // 列表循环
       case 2:
-        this.orderPlay(type, isClick, true);
+        this.orderPlay(0, isClick, true);
         break;
       // 单曲循环
       case 3:
-        this.singleLoopPlay(type, isClick);
+        this.singleLoopPlay(isClick);
         break;
       // 随机播放
       case 4:
@@ -244,9 +244,9 @@ export default class Default extends PublicPlay {
     this.playMusic(this.remainPlayList[randomIndex]);
   }
 
-  singleLoopPlay(type: number, isClick: boolean) {
+  singleLoopPlay(isClick: boolean) {
     if (isClick) {
-      this.orderPlay(type, isClick, false);
+      this.orderPlay(0, isClick, false);
     } else {
       const music: any = this.$refs.audio;
       music.load();
@@ -307,6 +307,7 @@ export default class Default extends PublicPlay {
 
   // 列表顺序播放
   orderPlay(type: number, isClick: boolean, isLoop: boolean) {
+    console.log(type);
     let currentIndex = 0;
     this.playList.forEach((ele, index) => {
       if (ele.id === this.currentMusic.id) {
