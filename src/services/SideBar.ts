@@ -1,6 +1,6 @@
 import request from 'xhr-axios';
 
-export const getUserPlayList = (uid?: number) => request({
+export const getUserPlayList = (uid?: string) => request({
   method: 'get',
   url: '/user/playlist',
   params: {

@@ -73,14 +73,21 @@ import SvgIcon from '@components/svg/SvgIcon.vue';
 
 import { getUserPlayList } from '@services/SideBar';
 
+import { mapState } from 'vuex';
+
 @Component({
   name: 'SideBar',
   components: {
     SvgIcon,
   },
+  computed: {
+    ...mapState(['isLogin', 'userId']),
+  },
 })
 export default class Default extends Vue {
-  isLogin = true;
+  isLogin!: boolean;
+
+  userId!: string;
 
   isShowCreatedPlayList = true;
 
@@ -144,17 +151,38 @@ export default class Default extends Vue {
   @Prop({ default: 'default value' })
   propA!: string;
 
-  async created() {
-    const playLists = await getUserPlayList(453905432);
-    this.userPlayLists = playLists.data.playlist;
-    this.createdPlayList = this.userPlayLists.filter(
-      (item: any) => !item.subscribed,
-    );
-    this.collectPlayList = this.userPlayLists.filter(
-      (item: any) => item.subscribed,
-    );
-    console.log(this.createdPlayList);
+  @Watch('isLogin')
+  changeLoginStatus(newVal: string, oldVal: string) {
+    console.log(newVal, oldVal);
+    getUserPlayList(this.userId).then((res) => {
+      this.userPlayLists = res.data.playlist;
+      this.createdPlayList = this.userPlayLists.filter(
+        (item: any) => !item.subscribed,
+      );
+      this.collectPlayList = this.userPlayLists.filter(
+        (item: any) => item.subscribed,
+      );
+    });
+    // this.userPlayLists = playLists.data.playlist;
+    // this.createdPlayList = this.userPlayLists.filter(
+    //   (item: any) => !item.subscribed,
+    // );
+    // this.collectPlayList = this.userPlayLists.filter(
+    //   (item: any) => item.subscribed,
+    // );
+    // console.log(this.createdPlayList);
   }
+  // async created() {
+  //   const playLists = await getUserPlayList(453905432);
+  //   this.userPlayLists = playLists.data.playlist;
+  //   this.createdPlayList = this.userPlayLists.filter(
+  //     (item: any) => !item.subscribed,
+  //   );
+  //   this.collectPlayList = this.userPlayLists.filter(
+  //     (item: any) => item.subscribed,
+  //   );
+  //   console.log(this.createdPlayList);
+  // }
 
   // mounted() {
   //   console.log('mounted');

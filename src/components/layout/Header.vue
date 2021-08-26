@@ -15,8 +15,17 @@
         <input type="text" />
       </div>
     </div>
-    <div class="header-user"></div>
-    <el-button @click="login" class="header-login">login</el-button>
+    <div class="header-user" v-if="isLogin">
+      <div
+        class="header-user-avatar"
+        :style="{ backgroundImage: `url(${userInfo.avatarUrl})` }"
+      ></div>
+      <div class="header-user-name">{{ userInfo.nickname }}</div>
+    </div>
+    <el-button @click="openLoginBar" class="header-login" v-if="!isLogin"
+      >login</el-button
+    >
+    <el-button @click="logout" class="header-login" v-else>logout</el-button>
   </div>
 </template>
 
@@ -25,17 +34,28 @@ import {
   Component, Vue, Watch, Prop,
 } from 'vue-property-decorator';
 
-import { login } from '@services';
-
 import SvgIcon from '@components/svg/SvgIcon.vue';
+
+import { mapState } from 'vuex';
 
 @Component({
   name: 'Header',
   components: {
     SvgIcon,
   },
+  computed: {
+    ...mapState(['isLogin', 'userInfo']),
+  },
 })
 export default class Default extends Vue {
+  isLogin!: boolean;
+
+  userInfo!: any;
+
+  logout() {
+    this.$store.commit('logout');
+  }
+
   @Watch('name')
   getWatchValue(newVal: string, oldVal: string) {
     console.log(newVal, oldVal);
@@ -52,13 +72,13 @@ export default class Default extends Vue {
   //   console.log('mounted');
   // }
 
-  async login() {
-    console.log('a');
-    const res = await login();
+  openLoginBar() {
+    this.$emit('showLoginBar');
+    // const res = await login();
 
-    const { cookie } = res.data;
-    this.$store.state.cookie = encodeURIComponent(cookie);
-    sessionStorage.setItem('cookie', this.$store.state.cookie);
+    // const { cookie } = res.data;
+    // this.$store.state.cookie = encodeURIComponent(cookie);
+    // sessionStorage.setItem('cookie', this.$store.state.cookie);
   }
 }
 </script>
@@ -140,6 +160,28 @@ export default class Default extends Vue {
   &-login {
     position: absolute;
     right: 30px;
+  }
+  &-user {
+    position: absolute;
+    right: 150px;
+    display: flex;
+    align-items: center;
+    &-avatar {
+      cursor: pointer;
+      width: 25px;
+      height: 25px;
+      flex-shrink: 0;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
+      background-position: center center;
+      border-radius: 50%;
+    }
+    &-name {
+      cursor: pointer;
+      margin-left: 5px;
+      font-size: 13px;
+      color: #fff;
+    }
   }
 }
 </style>

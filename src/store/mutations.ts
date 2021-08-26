@@ -54,4 +54,17 @@ export const mutations = {
     state.currentMusicUrl = '';
     state.isPlaying = false;
   },
+  login(state: State, res: any) {
+    state.isLogin = true;
+    state.cookie = res.cookie;
+    state.userInfo = res.profile;
+    state.userId = res.account.id;
+    // state.userInfo = userInfo;
+
+    sessionStorage.setItem('cookie', res.cookie);
+    console.log(state.userInfo);
+  },
+  logout(state: State) {
+    state.isLogin = false;
+  },
 };

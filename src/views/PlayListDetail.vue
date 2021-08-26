@@ -151,7 +151,12 @@
           </div>
         </div>
       </div>
-      <Comment v-else-if="currentContent == 1" :comment="comment"> </Comment>
+      <Comment
+        @changeCommentPage="changeCommentPage"
+        v-else-if="currentContent == 1"
+        :comment="comment"
+      >
+      </Comment>
       <div class="playListDetail-content_collector" v-else></div>
     </div>
   </div>
@@ -187,7 +192,9 @@ import { dateFormat, timeFormat, Rank } from '@utils';
 export default class Default extends PublicPlay {
   commentInfo = '';
 
-  comment: any;
+  commentPage = 0;
+
+  comment: any = {};
 
   isHideDescription = true;
 
@@ -218,6 +225,20 @@ export default class Default extends PublicPlay {
   changeContent(index: any) {
     console.log(index);
     this.currentContent = index;
+  }
+
+  changeCommentPage(page: number) {
+    console.log(page);
+    const params = {
+      id: this.$route.params.id,
+      limit: 20,
+      offset: page * 20,
+    };
+    // eslint-disable-next-line no-return-assign
+    getComment(params).then((res) => {
+      this.comment.comments = [...res.data.comments];
+      console.log(res.data);
+    });
   }
 
   // playMusic(musicDetail: any) {
@@ -271,7 +292,12 @@ export default class Default extends PublicPlay {
     this.playListContent = list.data;
     this.isLoading = false;
     // console.log(this.playListContent.songs);
-    const comment = await getComment(this.$route.params.id);
+    const params = {
+      id: this.$route.params.id,
+      limit: 20,
+      offset: 0,
+    };
+    const comment = await getComment(params);
     this.comment = comment.data;
   }
 
@@ -298,8 +324,12 @@ export default class Default extends PublicPlay {
 
     this.playListContent = list.data;
     this.isLoading = false;
-
-    const comment = await getComment(this.$route.params.id);
+    const params = {
+      id: this.$route.params.id,
+      limit: 20,
+      offset: 0,
+    };
+    const comment = await getComment(params);
     this.comment = comment.data;
     // console.log(this.playListContent.songs);
   }

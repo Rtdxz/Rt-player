@@ -1,9 +1,11 @@
 export interface State {
+  userInfo: any;
+  userId: string;
   cookie: string;
   currentMusicId: string;
   currentMusic: any;
   currentMusicUrl: string;
-  isLoggin: boolean;
+  isLogin: boolean;
   isPlaying: boolean;
   playList: any[];
   remainPlayList: any[];
@@ -12,13 +14,15 @@ export interface State {
 }
 
 export const state: State = {
+  userInfo: {},
+  userId: '',
   cookie: '',
   currentMusicId: '',
   currentMusic: {
     dt: 0,
   },
   currentMusicUrl: '',
-  isLoggin: false,
+  isLogin: false,
   isPlaying: false,
   playList: [],
   remainPlayList: [],

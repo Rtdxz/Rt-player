@@ -34,6 +34,8 @@ import SvgIconListTab from './SvgIconListTab.vue';
 import SvgIconLike from './SvgIconLike.vue';
 import SvgIconComment from './SvgIconComment.vue';
 
+import SvgIconPhone from './SvgIconPhone.vue';
+
 @Component({
   components: {
     SvgIconCloud,
@@ -61,6 +63,7 @@ import SvgIconComment from './SvgIconComment.vue';
     SvgIconListTab,
     SvgIconLike,
     SvgIconComment,
+    SvgIconPhone,
   },
 })
 export default class SvgIcon extends Vue {

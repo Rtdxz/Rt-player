@@ -25,10 +25,8 @@ export const getMusicUrl = (id: string) => request({
   },
 });
 
-export const getComment = (id: string) => request({
+export const getComment = (params: any) => request({
   method: 'get',
   url: '/comment/playlist',
-  params: {
-    id,
-  },
+  params,
 });

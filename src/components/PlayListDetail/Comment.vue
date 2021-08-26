@@ -14,7 +14,7 @@
       评论
     </div>
 
-    <div class="title">精彩评论</div>
+    <div class="title" v-if="comment.hotComments.length > 0">精彩评论</div>
     <comment-item
       :item="item"
       class="comment_item"
@@ -73,7 +73,8 @@ import CommentItem from '@components/CommentItem.vue';
 })
 export default class Default extends Vue {
   changePage(page: number) {
-    this.$emit('changeCommentPage', page);
+    this.$emit('changeCommentPage', page - 1);
+    // console.log(page);
   }
 
   sendComment() {
@@ -99,7 +100,7 @@ export default class Default extends Vue {
 // @import './index.scss';
 .comment {
   position: relative;
-  padding: 10px 30px;
+  padding: 10px 30px 50px;
 
   .title {
     font-weight: 600;
