@@ -14,7 +14,12 @@
       评论
     </div>
 
-    <div class="title" v-if="comment.hotComments.length > 0">精彩评论</div>
+    <div
+      class="title"
+      v-if="comment.hotComments && comment.hotComments.length > 0"
+    >
+      精彩评论
+    </div>
     <comment-item
       :item="item"
       class="comment_item"
@@ -101,7 +106,9 @@ export default class Default extends Vue {
 .comment {
   position: relative;
   padding: 10px 30px 50px;
-
+  div {
+    font-size: 12px;
+  }
   .title {
     font-weight: 600;
     font-size: 15px;

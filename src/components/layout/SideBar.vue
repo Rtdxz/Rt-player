@@ -81,7 +81,7 @@ import { mapState } from 'vuex';
     SvgIcon,
   },
   computed: {
-    ...mapState(['isLogin', 'userId']),
+    ...mapState(['isLogin', 'userId', 'userPlayList']),
   },
 })
 export default class Default extends Vue {
@@ -120,7 +120,7 @@ export default class Default extends Vue {
     },
   ];
 
-  userPlayLists: any[] = [];
+  userPlayList!: any[];
 
   createdPlayList: any[] = [];
 
@@ -152,33 +152,36 @@ export default class Default extends Vue {
   propA!: string;
 
   @Watch('isLogin')
-  changeLoginStatus(newVal: string, oldVal: string) {
-    console.log(newVal, oldVal);
-    getUserPlayList(this.userId).then((res) => {
-      this.userPlayLists = res.data.playlist;
-      this.createdPlayList = this.userPlayLists.filter(
-        (item: any) => !item.subscribed,
-      );
-      this.collectPlayList = this.userPlayLists.filter(
-        (item: any) => item.subscribed,
-      );
-    });
-    // this.userPlayLists = playLists.data.playlist;
-    // this.createdPlayList = this.userPlayLists.filter(
+  changeLoginStatus(newVal: boolean, oldVal: boolean) {
+    if (newVal === true) {
+      getUserPlayList(this.userId).then((res) => {
+        const userPlayList = res.data.playlist;
+        this.$store.commit('saveUserPlayList', userPlayList);
+        this.createdPlayList = userPlayList.filter(
+          (item: any) => !item.subscribed,
+        );
+        this.collectPlayList = userPlayList.filter(
+          (item: any) => item.subscribed,
+        );
+      });
+    }
+
+    // this.userPlayList = playLists.data.playlist;
+    // this.createdPlayList = this.userPlayList.filter(
     //   (item: any) => !item.subscribed,
     // );
-    // this.collectPlayList = this.userPlayLists.filter(
+    // this.collectPlayList = this.userPlayList.filter(
     //   (item: any) => item.subscribed,
     // );
     // console.log(this.createdPlayList);
   }
   // async created() {
   //   const playLists = await getUserPlayList(453905432);
-  //   this.userPlayLists = playLists.data.playlist;
-  //   this.createdPlayList = this.userPlayLists.filter(
+  //   this.userPlayList = playLists.data.playlist;
+  //   this.createdPlayList = this.userPlayList.filter(
   //     (item: any) => !item.subscribed,
   //   );
-  //   this.collectPlayList = this.userPlayLists.filter(
+  //   this.collectPlayList = this.userPlayList.filter(
   //     (item: any) => item.subscribed,
   //   );
   //   console.log(this.createdPlayList);
@@ -187,6 +190,16 @@ export default class Default extends Vue {
   // mounted() {
   //   console.log('mounted');
   // }
+  created() {
+    if (this.userPlayList.length > 0) {
+      this.createdPlayList = this.userPlayList.filter(
+        (item: any) => !item.subscribed,
+      );
+      this.collectPlayList = this.userPlayList.filter(
+        (item: any) => item.subscribed,
+      );
+    }
+  }
 }
 </script>
 

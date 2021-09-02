@@ -40,7 +40,7 @@ import { login } from '@services';
   },
 })
 export default class Default extends Vue {
-  isShowLoginBar = true;
+  isShowLoginBar = false;
 
   phoneNumber = '';
 

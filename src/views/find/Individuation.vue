@@ -281,6 +281,7 @@ export default class Default extends Vue {
   font-weight: 1000;
   margin: 30px 0 10px;
   cursor: pointer;
+  font-size: 20px;
   .icon {
     margin-left: 7px;
     width: 15px;

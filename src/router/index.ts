@@ -10,6 +10,9 @@ import NewestMusic from '@views/find/NewestMusic.vue';
 
 import PlayListDetail from '@views/PlayListDetail.vue';
 
+import SearchPage from '@views/SearchPage/SearchPage.vue';
+import SearchBySong from '@views/SearchPage/SearchBySong.vue';
+
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
@@ -60,6 +63,21 @@ const routes: Array<RouteConfig> = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '@views/About.vue'),
+  },
+  {
+    path: '/SearchPage',
+    name: 'SearchPage',
+    component: SearchPage,
+    children: [
+      {
+        path: '',
+        redirect: 'SearchBySong',
+      },
+      {
+        path: 'SearchBySong',
+        component: SearchBySong,
+      },
+    ],
   },
 ];
 

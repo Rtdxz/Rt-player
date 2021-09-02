@@ -10,10 +10,7 @@
       <div class="header-route_button" @click="$router.go(1)">
         <svg-icon type="right-arrow" class="icon"></svg-icon>
       </div>
-      <div class="header-route_search">
-        <svg-icon type="search" class="icon"></svg-icon>
-        <input type="text" />
-      </div>
+      <Search></Search>
     </div>
     <div class="header-user" v-if="isLogin">
       <div
@@ -36,12 +33,15 @@ import {
 
 import SvgIcon from '@components/svg/SvgIcon.vue';
 
+import Search from '@components/Search.vue';
+
 import { mapState } from 'vuex';
 
 @Component({
   name: 'Header',
   components: {
     SvgIcon,
+    Search,
   },
   computed: {
     ...mapState(['isLogin', 'userInfo']),
@@ -113,6 +113,7 @@ export default class Default extends Vue {
     }
   }
   &-route {
+    z-index: 4;
     margin-left: 70px;
     display: flex;
     align-items: center;
@@ -130,30 +131,6 @@ export default class Default extends Vue {
         width: 10px;
         height: 10px;
         color: #fff;
-      }
-    }
-    &_search {
-      position: relative;
-      margin-left: 10px;
-      .icon {
-        position: absolute;
-        top: 7.5px;
-        left: 10px;
-        width: 15px;
-        height: 15px;
-        color: #fff;
-      }
-      input {
-        width: 170px;
-        height: 30px;
-        padding: 5px 30px;
-        box-sizing: border-box;
-        background-color: rgba(41, 41, 41, 0.1);
-        font-size: 13px;
-        color: #fff;
-        border-radius: 15px;
-        border: 1px;
-        outline: 0;
       }
     }
   }

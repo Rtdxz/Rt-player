@@ -40,11 +40,11 @@
     </div>
     <div class="MusicController-progress">
       <div class="MusicController-progress_currentTime">
-        {{ timeFormat(currentTime) }}
+        {{ timeFormat($store.state.currentTime) }}
       </div>
 
       <el-slider
-        v-model="currentTime"
+        v-model="$store.state.currentTime"
         :max="Math.floor(currentMusic.dt / 1000)"
         :marks="slider"
         @change="changeProgress"
@@ -71,16 +71,6 @@
         :show-tooltip="false"
       ></el-slider>
     </div>
-    <div class="playListTab">
-      <svg-icon
-        type="list-tab"
-        class="icon"
-        @click.native="isshowPlayListTable = !isshowPlayListTable"
-      ></svg-icon>
-    </div>
-    <transition name="slide-fade">
-      <play-list-table v-show="isshowPlayListTable"></play-list-table>
-    </transition>
   </div>
 </template>
 
@@ -93,14 +83,12 @@ import SvgIcon from '@components/svg/SvgIcon.vue';
 import { timeFormat, timeHandle } from '@utils';
 import { mapState } from 'vuex';
 import { PublicPlay } from '@mixins';
-import PlayListTable from '@components/PlayListTable.vue';
 
 @Component({
   name: 'MusicController',
   components: {
     SvgIconController,
     SvgIcon,
-    PlayListTable,
   },
   computed: {
     ...mapState([
@@ -110,17 +98,12 @@ import PlayListTable from '@components/PlayListTable.vue';
       'slider',
       'playList',
       'remainPlayList',
+      'currentTime',
     ]),
   },
-  // filters: {
-  //   timeFormat: (time: number) => timeFormat(time),
-  //   timeHandle: (time: number) => timeHandle(time),
-  // },
 })
 export default class Default extends PublicPlay {
   isPlaying!: boolean;
-
-  isshowPlayListTable = false;
 
   playMode = 0;
 
@@ -132,6 +115,8 @@ export default class Default extends PublicPlay {
 
   slider!: any;
 
+  // currentTime = 0;
+
   playDur!: number[];
 
   timeFormat = timeFormat;
@@ -139,8 +124,6 @@ export default class Default extends PublicPlay {
   timeHandle = timeHandle;
 
   progress = 0;
-
-  currentTime = 0;
 
   // duration = timeHandle(188571);
 
@@ -178,7 +161,12 @@ export default class Default extends PublicPlay {
     // this.audio.currenTime += 1;
     // console.log(this.audio.currentTime);
     const music: any = this.$refs.audio;
-    this.currentTime = music.currentTime + this.playDur[0];
+    // this.$store.state.currentTime = music.currentTime + this.playDur[0];
+    this.$store.commit(
+      'changeCurrentTime',
+      music.currentTime + this.playDur[0],
+    );
+    // console.log(this.currentTime);
   }
 
   /*  type:
@@ -212,13 +200,6 @@ export default class Default extends PublicPlay {
       default:
         break;
     }
-
-    // this.currentTime = 0;
-    // const music: any = this.$refs.audio;
-    // music.currentTime = 0;
-    // this.$store.commit('changePlayStatus', false);
-
-    // this.isPlaying = false;
   }
 
   // 随机播放
@@ -259,8 +240,8 @@ export default class Default extends PublicPlay {
 
   changeProgress() {
     const music: any = this.$refs.audio;
-    music.currentTime = this.currentTime - this.playDur[0];
-    console.log(this.currentTime, music.currentTime);
+    music.currentTime = this.$store.state.currentTime - this.playDur[0];
+    // console.log(this.currentTime, music.currentTime);
     this.isDragging = false;
   }
 
@@ -288,11 +269,13 @@ export default class Default extends PublicPlay {
   }
 
   Play() {
+    if (this.playList.length === 0) return;
+
     const music: any = this.$refs.audio;
 
     music.volume = this.volume;
     console.log(music.currentTime);
-    console.log(this.currentTime);
+    // console.log(this.currentTime);
     // console.log(music.volume);
     if (!this.isPlaying) {
       music.play();
@@ -364,7 +347,10 @@ export default class Default extends PublicPlay {
 // @import './index.scss';
 
 .MusicController {
-  position: relative;
+  position: absolute;
+  left: 50%;
+  top: 10px;
+  transform: translateX(-50%);
   &-base {
     padding: 0 50px;
     display: flex;
@@ -469,7 +455,7 @@ export default class Default extends PublicPlay {
     background-color: #e0eaf3;
     height: 3px;
 
-    border-radius: 50%;
+    // border-radius: 50%;
   }
   .el-slider__button-wrapper {
     height: 10px;
@@ -493,28 +479,5 @@ export default class Default extends PublicPlay {
   .el-slider {
     width: 100px;
   }
-}
-.playListTab {
-  position: absolute;
-  width: 200px;
-  height: 20px;
-  top: 10px;
-  right: -400px;
-  .icon {
-    width: 17px;
-    height: 17px;
-    cursor: pointer;
-  }
-}
-.slide-fade-enter-active {
-  transition: all 0.4s ease;
-}
-.slide-fade-leave-active {
-  transition: all 0.4s ease;
-}
-.slide-fade-enter,
-.slide-fade-leave-to {
-  transform: translateX(15px);
-  opacity: 0;
 }
 </style>

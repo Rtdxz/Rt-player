@@ -1,55 +1,57 @@
 <template>
-  <div class="playListTable">
-    <div class="playListTable-title">
-      <div class="playListTable-title_top">当前播放</div>
-      <div class="playListTable-title_bottom">
-        <div class="playListTable-title_bottom_count">
-          共{{ playList.length }}首
-        </div>
-        <div class="playListTable-title_bottom_clear" @click="clearPlayList">
-          清空列表
+  <transition name="slide-fade">
+    <div class="playListTable " v-show="isShowPlayListTable">
+      <div class="playListTable-title">
+        <div class="playListTable-title_top">当前播放</div>
+        <div class="playListTable-title_bottom">
+          <div class="playListTable-title_bottom_count">
+            共{{ playList.length }}首
+          </div>
+          <div class="playListTable-title_bottom_clear" @click="clearPlayList">
+            清空列表
+          </div>
         </div>
       </div>
-    </div>
-    <div class="playListTable-content">
-      <div
-        class="playListTable-content_item"
-        v-for="item in playList"
-        :key="item.id"
-        @dblclick="playMusic(item)"
-      >
-        <div class="playListTable-content_item_name item title">
-          {{ item.name }}
-          <span class="alias" v-if="item.alia.length">
-            {{ `(${item.alia[0]})` }}
-          </span>
-          <!-- <svg-icon type="SQ" class="sqicon"></svg-icon> -->
-          <svg-icon type="MV" class="mvicon" v-if="item.mv != 0"></svg-icon>
-        </div>
-        <div class="playListTable-content_item_artists item artists">
-          <div
-            class="artist"
-            v-for="(artist, index) in item.ar"
-            :key="artist.id"
-          >
-            <span class="slash" v-if="item.ar.length > 1 && index != 0">
-              /
+      <div class="playListTable-content">
+        <div
+          class="playListTable-content_item"
+          v-for="item in playList"
+          :key="item.id"
+          @dblclick="playMusic(item)"
+        >
+          <div class="playListTable-content_item_name item title">
+            {{ item.name }}
+            <span class="alias" v-if="item.alia.length">
+              {{ `(${item.alia[0]})` }}
             </span>
-            <span class="text">
-              {{ artist.name }}
-            </span>
+            <!-- <svg-icon type="SQ" class="sqicon"></svg-icon> -->
+            <svg-icon type="MV" class="mvicon" v-if="item.mv != 0"></svg-icon>
           </div>
-          {{ item.artist }}
-        </div>
-        <!-- <div class="playListTable-content_item_album item album">
+          <div class="playListTable-content_item_artists item artists">
+            <div
+              class="artist"
+              v-for="(artist, index) in item.ar"
+              :key="artist.id"
+            >
+              <span class="slash" v-if="item.ar.length > 1 && index != 0">
+                /
+              </span>
+              <span class="text">
+                {{ artist.name }}
+              </span>
+            </div>
+            {{ item.artist }}
+          </div>
+          <!-- <div class="playListTable-content_item_album item album">
           {{ item.al.name }}
         </div> -->
-        <div class="playListTable-content_item_time item time">
-          {{ timeFormat(Math.floor(item.dt / 1000)) }}
+          <div class="playListTable-content_item_time item time">
+            {{ timeFormat(Math.floor(item.dt / 1000)) }}
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script lang="ts">
@@ -66,11 +68,13 @@ import { PublicPlay } from '@mixins';
     SvgIcon,
   },
   computed: {
-    ...mapState(['playList']),
+    ...mapState(['playList', 'isShowPlayListTable']),
   },
 })
 export default class Default extends PublicPlay {
   playList!: any[];
+
+  isShowPlayListTable!: boolean;
 
   clearPlayList() {
     this.$store.commit('clearPlayList');
@@ -98,7 +102,7 @@ export default class Default extends PublicPlay {
   height: calc(100vh - 135px);
   background-color: #fff;
   box-shadow: 0px -2px 5px 1px rgba(51, 51, 51, 0.1);
-  z-index: 1;
+  z-index: 3;
   &-title {
     padding: 20px;
     &_top {
@@ -245,5 +249,16 @@ export default class Default extends PublicPlay {
       }
     }
   }
+}
+.slide-fade-enter-active {
+  transition: all 0.4s ease;
+}
+.slide-fade-leave-active {
+  transition: all 0.4s ease;
+}
+.slide-fade-enter,
+.slide-fade-leave-to {
+  transform: translateX(15px);
+  opacity: 0;
 }
 </style>

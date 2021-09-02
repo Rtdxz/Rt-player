@@ -14,11 +14,13 @@
           <div
             class="playListDetail-info_user_avatar"
             :style="{
-              backgroundImage: `url(${playListInfo.creator.avatarUrl})`,
+              backgroundImage: `url(${
+                playListInfo.creator ? playListInfo.creator.avatarUrl : ''
+              })`,
             }"
           ></div>
           <div class="playListDetail-info_user_name">
-            {{ playListInfo.creator.nickname }}
+            {{ playListInfo.creator ? playListInfo.creator.nickname : '' }}
           </div>
           <div class="playListDetail-info_user_createTime">
             {{ dateFormat(playListInfo.createTime) }}创建
@@ -45,7 +47,7 @@
         <div class="playListDetail-info_base">
           <div class="playListDetail-info_base_tag">
             标签:
-            <span v-for="(tag, index) in playListInfo.tags" :key="tag">
+            <span v-for="(tag, index) in playListInfo.tags" :key="tag.index">
               <span class="text"> {{ tag }}</span>
               <span v-if="index !== playListInfo.tags.length - 1"> /</span>
             </span>
@@ -92,7 +94,7 @@
     </div>
 
     <div class="playListDetail-content">
-      <div class="playListDetail-content_list" v-if="currentContent == 0">
+      <!-- <div class="playListDetail-content_list" v-if="currentContent == 0">
         <div class="playListDetail-content_title">
           <div class="playListDetail-content_title_item title">音乐标题</div>
           <div class="playListDetail-content_title_item artists">歌手</div>
@@ -110,7 +112,7 @@
             class="playListDetail-content_item"
             v-for="(item, index) in playListContent.songs"
             :key="item.id"
-            @dblclick="playMusic(item)"
+            @dblclick="playMusicDetail(item, Number(index))"
           >
             <span class="playListDetail-content_item_rank">{{
               Rank(Number(index) + 1)
@@ -119,12 +121,18 @@
               <svg-icon type="heart" class="icon"></svg-icon>
               <svg-icon type="download2" class="icon"></svg-icon>
             </div>
-            <div class="playListDetail-content_item_name item title">
+            <div
+              class="playListDetail-content_item_name item title"
+              :class="{
+                'playListDetail-content_item_disabled_name':
+                  playListContent.privileges[index].st === -200,
+              }"
+            >
               {{ item.name }}
               <span class="alias" v-if="item.alia.length">
                 {{ `(${item.alia[0]})` }}
               </span>
-              <!-- <svg-icon type="SQ" class="sqicon"></svg-icon> -->
+
               <svg-icon type="MV" class="mvicon" v-if="item.mv != 0"></svg-icon>
             </div>
             <div class="playListDetail-content_item_artists item artists">
@@ -150,7 +158,13 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
+
+      <song-item-list
+        v-if="currentContent == 0"
+        :playListContent="playListContent"
+        :isLoading="isLoading"
+      ></song-item-list>
       <Comment
         @changeCommentPage="changeCommentPage"
         v-else-if="currentContent == 1"
@@ -170,6 +184,7 @@ import {
 import TabBar from '@components/TabBar.vue';
 import SvgIcon from '@components/svg/SvgIcon.vue';
 import Comment from '@components/PlayListDetail/Comment.vue';
+import SongItemList from '@components/SongItemList.vue';
 
 import { PublicPlay } from '@mixins';
 
@@ -187,6 +202,7 @@ import { dateFormat, timeFormat, Rank } from '@utils';
     TabBar,
     SvgIcon,
     Comment,
+    SongItemList,
   },
 })
 export default class Default extends PublicPlay {
@@ -214,10 +230,24 @@ export default class Default extends PublicPlay {
 
   Rank = Rank;
 
+  playMusicDetail(item: any, index: number) {
+    if (this.playListContent.privileges[index].st === -200) {
+      this.$message({ message: '因版权问题暂时下架', type: 'error' });
+      return;
+    }
+    this.playMusic(item);
+    console.log(item);
+  }
+
   playListAllMusic() {
-    const songList = this.playListContent.songs.filter(
-      (ele: any) => !ele.noCopyrightRcmd,
-    );
+    const songList = [];
+    // eslint-disable-next-line no-restricted-syntax
+    for (const song of this.playListContent.privileges) {
+      if (song.st !== -200) {
+        const index = this.playListContent.privileges.indexOf(song);
+        songList.push(this.playListContent.songs[index]);
+      }
+    }
     this.$store.commit('addAllMusicToList', songList);
     this.playMusic(songList[0]);
   }
@@ -255,20 +285,7 @@ export default class Default extends PublicPlay {
   //   });
   // }
 
-  tabBarList = [
-    {
-      title: '歌单列表',
-      index: 0,
-    },
-    {
-      title: '评论',
-      index: 1,
-    },
-    {
-      title: '收藏者',
-      index: 2,
-    },
-  ];
+  tabBarList: any[] = [];
 
   @Watch('$route')
   async getWatchValue(newVal: string, oldVal: string) {
@@ -299,6 +316,21 @@ export default class Default extends PublicPlay {
     };
     const comment = await getComment(params);
     this.comment = comment.data;
+    const { total } = this.comment;
+    this.tabBarList = [
+      {
+        title: '歌单列表',
+        index: 0,
+      },
+      {
+        title: `评论(${total})`,
+        index: 1,
+      },
+      {
+        title: '收藏者',
+        index: 2,
+      },
+    ];
   }
 
   @Prop({ default: 'default value' })
@@ -331,6 +363,21 @@ export default class Default extends PublicPlay {
     };
     const comment = await getComment(params);
     this.comment = comment.data;
+    const { total } = this.comment;
+    this.tabBarList = [
+      {
+        title: '歌单列表',
+        index: 0,
+      },
+      {
+        title: `评论(${total})`,
+        index: 1,
+      },
+      {
+        title: '收藏者',
+        index: 2,
+      },
+    ];
     // console.log(this.playListContent.songs);
   }
   // mounted() { }
@@ -459,7 +506,7 @@ export default class Default extends PublicPlay {
         width: 95%;
         position: relative;
         white-space: break-spaces;
-        line-height: 20px;
+        line-height: 28px;
 
         &.hide {
           position: relative;
@@ -541,7 +588,11 @@ export default class Default extends PublicPlay {
       &:hover {
         background-color: #f0f1f2;
       }
-
+      &_disabled {
+        &_name {
+          color: #c3c3c4 !important;
+        }
+      }
       width: 100%;
       height: 40px;
       padding-left: 30px;
@@ -672,6 +723,10 @@ export default class Default extends PublicPlay {
 }
 .loading_color .el-loading-spinner .el-loading-text {
   color: #676767;
+}
+
+.el-loading-mask {
+  z-index: 2;
 }
 
 .el-textarea__inner:focus {

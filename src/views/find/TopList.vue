@@ -102,6 +102,7 @@ export default class Default extends Vue {
 // @import './index.scss';
 .title {
   font-weight: 700;
+  font-size: 20px;
 }
 .officialList {
   &-content {

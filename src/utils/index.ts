@@ -1,4 +1,4 @@
-// 将间隔时间(毫秒)转成显示时间
+// 将间隔时间(毫秒)转成显示时间分钟和秒
 export const timeHandle = function (duration: number): any {
   return `${
     new Date(duration).getMinutes() < 10
@@ -11,6 +11,7 @@ export const timeHandle = function (duration: number): any {
   }`;
 };
 
+// 将间隔时间(秒)换算成24小时显示方式分钟和秒
 export const timeFormat = function (time: number) {
   // 分钟
   const minutes = Math.floor(time / 60);
@@ -23,6 +24,7 @@ export const timeFormat = function (time: number) {
   }`;
 };
 
+// 将时间戳换算成年月日
 export const dateFormat = function (time: number) {
   const dt = new Date(time);
 
@@ -37,6 +39,22 @@ export const dateFormat = function (time: number) {
   // return `${y}-${m}-${d} ${hh}:${mm}:${ss}`;
   return `${y}-${m}-${d}`;
 };
+
+// 将24小时分钟秒显示转换成秒
+export const formatToMinute = function (time: string) {
+  if (time === '') return '';
+
+  const minutes = Number(time.split(':')[0]);
+
+  const seconds = Number(time.split(':')[1].split('.')[0]);
+
+  const millisecond = Number(time.split(':')[1].split('.')[1]);
+
+  const result = minutes * 60 + seconds + millisecond * 0.001;
+  // console.log(result);
+  return result;
+};
+
 export const Rank = function (index: number) {
   return index < 10 ? `0${index}` : index;
 };

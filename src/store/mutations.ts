@@ -25,6 +25,10 @@ export const mutations = {
     state.currentMusic = musicDetail;
     console.log(state.currentMusic);
   },
+  changeCurrentTime(state: State, currentTime: any) {
+    state.currentTime = currentTime;
+    // console.log(state.currentTime);
+  },
   changePlayStatus(state: State, status: boolean) {
     state.isPlaying = status;
   },
@@ -53,6 +57,8 @@ export const mutations = {
     state.remainPlayList = [];
     state.currentMusicUrl = '';
     state.isPlaying = false;
+    state.currentMusic = { dt: 0 };
+    state.currentMusicId = '';
   },
   login(state: State, res: any) {
     state.isLogin = true;
@@ -66,5 +72,14 @@ export const mutations = {
   },
   logout(state: State) {
     state.isLogin = false;
+  },
+  showPlayListTable(state: State, isShowPlayListTable: boolean) {
+    state.isShowPlayListTable = isShowPlayListTable;
+  },
+  saveUserPlayList(state: State, userPlayList: any[]) {
+    state.userPlayList = userPlayList;
+  },
+  saveSearchKeywords(state: State, keywords: string) {
+    state.searchKeywords = keywords;
   },
 };

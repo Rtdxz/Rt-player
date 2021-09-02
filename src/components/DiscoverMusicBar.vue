@@ -103,6 +103,7 @@ export default class Default extends Vue {
     text-align: center;
     line-height: 80px;
     cursor: pointer;
+    font-size: 20px;
 
     &_active {
       border-bottom: 4px solid $theme-red;

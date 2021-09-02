@@ -13,6 +13,7 @@ export class PublicPlay extends Vue {
   Rank = Rank;
 
   playMusic(musicDetail: any) {
+    console.log('play');
     if (this.$store.state.currentMusicId === musicDetail.id) return;
     getMusicUrl(musicDetail.id).then((res) => {
       const musicInfo = res.data.data[0];
