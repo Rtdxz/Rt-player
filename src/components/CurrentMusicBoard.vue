@@ -213,6 +213,7 @@ export default class Default extends Vue {
         limit: 20,
         offset: 0,
       };
+      this.lyricArr = [];
       const comment = await getComment(params);
       this.comment = comment.data;
       // const { total } = this.comment;
@@ -223,11 +224,11 @@ export default class Default extends Vue {
       } else {
         // console.log(lyric.data.lrc.lyric);
 
-        this.lyric = lyric.data.lrc.lyric;
         console.log(this.lyric);
-        if (!this.lyric) {
+        if (!lyric.data.lrc) {
           this.lyricType = 'noLyric';
         } else {
+          this.lyric = lyric.data.lrc.lyric;
           this.lyricType = 'lyric';
           this.analysisLyric();
         }
