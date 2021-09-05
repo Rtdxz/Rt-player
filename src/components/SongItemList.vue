@@ -1,5 +1,5 @@
 <template>
-  <div class="songItemList_list">
+  <div class="songItemList">
     <div class="songItemList_title">
       <div class="songItemList_title_item title">音乐标题</div>
       <div class="songItemList_title_item artists">歌手</div>
@@ -29,10 +29,14 @@
         <div
           class="songItemList_item_name item title"
           :class="{
-            songItemList_item_disabled_name:
-              playListContent.privileges[index].st === -200,
+            songItemList_item_disabled_name: item.privilege
+              ? item.privilege.st === -200
+              : playListContent.privileges[index].st === -200,
           }"
         >
+          <!-- songItemList_item_disabled_name: item.privileges
+              ? item.privileges.st === -200
+              : playListContent.privileges[index].st === -200, -->
           {{ item.name }}
           <span class="alias" v-if="item.alia.length">
             {{ `(${item.alia[0]})` }}
@@ -86,12 +90,16 @@ export default class Default extends PublicPlay {
   timeFormat = timeFormat;
 
   playMusicDetail(item: any, index: number) {
-    if (this.playListContent.privileges[index].st === -200) {
+    if (
+      (this.playListContent.privileges
+        && this.playListContent.privileges[index].st === -200)
+      || (item.privilege && item.privilege.st === -200)
+    ) {
       this.$message({ message: '因版权问题暂时下架', type: 'error' });
       return;
     }
+
     this.playMusic(item);
-    console.log(item);
   }
 
   @Watch('name')
@@ -117,21 +125,21 @@ export default class Default extends PublicPlay {
   &_itemContainer {
     height: 100px;
   }
-  & .title {
+  .title {
     flex: 1 1;
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  & .artists {
+  .artists {
     width: 290px;
   }
-  & .album {
+  .album {
     width: 330px;
   }
-  & .time {
+  .time {
     width: 135px;
   }
-  & .item {
+  .item {
     padding-left: 5px;
     margin-left: 8px;
   }
