@@ -5,7 +5,7 @@
       type="text"
       @focus="isShowSearchBoard = true"
       @keydown.enter="GotoSearchPage"
-      @input="getSearchSuggest"
+      @input="debounceSearch"
       @blur="isShowSearchBoard = false"
       v-model="keywords"
     />
@@ -135,6 +135,7 @@ import {
   getSongDetail,
   Search,
 } from '@services/Search';
+import { debounce } from '@utils';
 
 @Component({
   name: 'Search',
@@ -151,7 +152,10 @@ export default class Default extends PublicPlay {
 
   keywords: any = '';
 
+  debounceSearch = debounce(this.getSearchSuggest, 500);
+
   async getSearchSuggest() {
+    console.log('a');
     if (this.keywords) {
       const res = await getSearchSuggest(this.keywords);
       this.searchSuggest = res.data.result;

@@ -13,7 +13,7 @@
     "suppressImplicitAnyIndexErrors": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "types": ["webpack-env"],
+    "types": ["webpack-env", "node"],
     "paths": {
       "@/*": ["*", "src/*"],
       "xhr-axios": ["common/xhr-axios"],

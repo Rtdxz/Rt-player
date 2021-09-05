@@ -55,6 +55,26 @@ export const formatToMinute = function (time: string) {
   return result;
 };
 
+// 序号显示
 export const Rank = function (index: number) {
   return index < 10 ? `0${index}` : index;
+};
+
+// 防抖
+export const debounce = function (
+  this: any,
+  fun: any,
+
+  delay = 500,
+) {
+  let timer: NodeJS.Timer | null = null;
+  console.log('b');
+  return (...args: any) => {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(() => {
+      fun.apply(this, args);
+    }, delay);
+  };
 };
