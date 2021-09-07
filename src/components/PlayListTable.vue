@@ -60,7 +60,7 @@ import {
 } from 'vue-property-decorator';
 import SvgIcon from '@components/svg/SvgIcon.vue';
 import { mapState } from 'vuex';
-import { PublicPlay } from '@mixins';
+import { PublicPlay } from '@mixins/PublicPlay';
 
 @Component({
   name: 'PlayListTable',

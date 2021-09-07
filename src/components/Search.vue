@@ -123,19 +123,17 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Vue, Watch, Prop,
-} from 'vue-property-decorator';
+import { Component, Watch } from 'vue-property-decorator';
 
 import SvgIcon from '@components/svg/SvgIcon.vue';
-import { PublicPlay } from '@mixins';
+import { PublicPlay } from '@mixins/PublicPlay';
 import {
   getHotSearch,
   getSearchSuggest,
   getSongDetail,
-  Search,
 } from '@services/Search';
 import { debounce } from '@utils';
+import router from '../router';
 
 @Component({
   name: 'Search',
@@ -170,8 +168,13 @@ export default class Default extends PublicPlay {
   }
 
   GotoSearchPage() {
+    if (!this.keywords) return;
+    if (this.$route.path.indexOf('/SearchPage') === -1) {
+      this.$router.push('/SearchPage');
+    }
+
     this.$store.commit('saveSearchKeywords', this.keywords);
-    this.$router.push('/SearchPage');
+    this.isShowSearchBoard = false;
   }
 
   @Watch('name')
@@ -237,8 +240,7 @@ export default class Default extends PublicPlay {
       }
       &-title {
         display: flex;
-        &-searchWord {
-        }
+
         &-icon {
           margin-left: 10px;
           height: 13px;

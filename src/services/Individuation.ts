@@ -41,6 +41,11 @@ export const getRecommandSongSheet = () => request({
   url: `/recommend/resource?cookie=${cookie}`,
 });
 
+export const getRecommandPlayLists = () => request({
+  method: 'get',
+  url: '/personalized?limit=10',
+});
+
 export const login = () => request({
   method: 'get',
   url: `/login/cellphone?phone=18023276136&password=${password}`,

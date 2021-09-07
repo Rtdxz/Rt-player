@@ -71,11 +71,9 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Vue, Watch, Prop,
-} from 'vue-property-decorator';
+import { Component, Watch, Prop } from 'vue-property-decorator';
 import { Rank, timeFormat } from '@utils';
-import { PublicPlay } from '@mixins';
+import { PublicPlay } from '@mixins/PublicPlay';
 import SvgIcon from '@components/svg/SvgIcon.vue';
 
 @Component({
@@ -123,7 +121,7 @@ export default class Default extends PublicPlay {
 
 .songItemList {
   &_itemContainer {
-    height: 100px;
+    min-height: 100px;
   }
   .title {
     flex: 1 1;

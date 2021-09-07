@@ -5,12 +5,10 @@ export const getHotSearch = () => request({
   url: '/search/hot/detail',
 });
 
-export const Search = (keywords: string) => request({
+export const Search = (params: any) => request({
   method: 'get',
   url: '/cloudsearch',
-  params: {
-    keywords,
-  },
+  params,
 });
 
 export const getSearchSuggest = (keywords: string) => request({

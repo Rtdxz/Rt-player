@@ -89,9 +89,10 @@ export default class Home extends Vue {
 #app {
   position: relative;
 }
-// div {
-//   font-size: 20px;
-// }
+div {
+  cursor: default;
+  -webkit-user-select: none;
+}
 .middle {
   height: calc(100vh - 135px);
   width: 100%;

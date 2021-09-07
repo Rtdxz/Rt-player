@@ -46,7 +46,9 @@
       </div>
       <div class="recommandSongSheet_content">
         <song-sheet-item
-          v-for="item in recommandSongSheet.recommend.slice(0, 10)"
+          v-for="item in recommandSongSheet.recommend.length !== 0
+            ? recommandSongSheet.recommend.slice(0, 10)
+            : recommandPlayList"
           :key="item.id"
           :item="item"
           :type="'Individuation'"
@@ -131,7 +133,8 @@
         推荐MV<svg-icon type="right-arrow" class="icon"></svg-icon>
       </div>
       <div class="recommandMV_content">
-        <div
+        <MVItem v-for="item in mv.result" :key="item.id" :item="item"></MVItem>
+        <!-- <div
           class="recommandMV_content_item"
           v-for="item in mv.result"
           :key="item.id"
@@ -158,7 +161,7 @@
           <div class="recommandMV_content_item_artist ">
             {{ item.artists[0].name }}
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
     <!-- 播客 -->
@@ -181,21 +184,31 @@ import {
   getBanner,
   getNewestSong,
   getRecommandMV,
+  getRecommandPlayLists,
 } from '@services/Individuation';
 import { PrivateContent, RecommandSongSheet } from '@interface';
 
 import SvgIcon from '@components/svg/SvgIcon.vue';
 
 import SongSheetItem from '@components/SongSheetItem.vue';
+import { mapState } from 'vuex';
+
+import MVItem from '@components/MVItem.vue';
 
 @Component({
   name: 'Individuation',
   components: {
     SvgIcon,
     SongSheetItem,
+    MVItem,
+  },
+  computed: {
+    ...mapState(['isLogin']),
   },
 })
 export default class Default extends Vue {
+  isLogin!: boolean;
+
   privatecontent: PrivateContent = {
     name: '',
     result: [],
@@ -213,6 +226,8 @@ export default class Default extends Vue {
     haveRcmdSongs: false,
     recommend: [],
   };
+
+  recommandPlayList: any[] = [];
 
   newestSong: any = {
     category: 0,
@@ -235,8 +250,14 @@ export default class Default extends Vue {
     this.banner = banner.data;
     const privatecontent = await getPrivateContent();
     this.privatecontent = privatecontent.data;
-    const recommandSongSheet = await getRecommandSongSheet();
-    this.recommandSongSheet = recommandSongSheet.data;
+    if (this.isLogin) {
+      const recommandSongSheet = await getRecommandSongSheet();
+      this.recommandSongSheet = recommandSongSheet.data;
+    } else {
+      const recommandPlayList = await getRecommandPlayLists();
+      console.log(recommandPlayList.data);
+      this.recommandPlayList = recommandPlayList.data.result;
+    }
 
     const newestSong = await getNewestSong();
     this.newestSong = newestSong.data;
@@ -488,56 +509,6 @@ export default class Default extends Vue {
   &_content {
     width: 100%;
     display: flex;
-    &_item {
-      &:first-child {
-        padding-left: 0;
-      }
-      flex: 1;
-      padding: 5px;
-      &_pic {
-        position: relative;
-        width: 1.699346rem;
-        height: 0.960784rem;
-        background-repeat: no-repeat;
-        background-size: 100% 100%;
-        background-position: center center;
-        border-radius: 7px;
-        cursor: pointer;
-      }
-      &_playcount {
-        position: absolute;
-        top: 7px;
-        right: 7px;
-        font-size: 13px;
-
-        color: #fff;
-      }
-      &_icon {
-        vertical-align: bottom;
-
-        width: 13px;
-        height: 13px;
-        margin-right: 6px;
-      }
-      &_title {
-        width: 1.699346rem;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        margin-top: 10px;
-        font-size: 14px;
-        cursor: pointer;
-      }
-      &_artist {
-        cursor: pointer;
-        margin-top: 10px;
-        font-size: 12px;
-        color: #676767;
-        &:hover {
-          color: #333;
-        }
-      }
-    }
   }
 }
 
@@ -553,31 +524,6 @@ export default class Default extends Vue {
           // width: 300px;
           height: 163px;
           border-radius: 7px;
-        }
-      }
-    }
-  }
-  // .recommandSongSheet {
-  //   &_content {
-  //     &_item {
-  //       &_pic {
-  //         // width: 300px;
-  //         height: 163px;
-  //         border-radius: 7px;
-  //       }
-  //     }
-  //   }
-  // }
-  .recommandMV {
-    &_content {
-      &_item {
-        &_pic {
-          // width: 300px;
-          width: 213px;
-          height: 140px;
-        }
-        &_title {
-          width: 213px;
         }
       }
     }

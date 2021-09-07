@@ -15,9 +15,7 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Vue, Watch, Prop,
-} from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator';
 
 @Component({
   name: 'TabBar',
@@ -27,18 +25,11 @@ export default class Default extends Vue {
     this.$emit('changeTab', index);
   }
 
-  @Watch('name')
-  getWatchValue(newVal: string, oldVal: string) {
-    console.log(newVal, oldVal);
-  }
-
   @Prop({ default: [] })
   tabBarList!: any[];
 
   @Prop({ default: 0 })
   currentIndex!: number;
-  // created() { }
-  // mounted() { }
 }
 </script>
 

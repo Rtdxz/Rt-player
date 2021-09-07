@@ -93,13 +93,11 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Vue, Watch, Prop,
-} from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 
 import { mapState } from 'vuex';
 
-import Comment from '@components/PlayListDetail/Comment.vue';
+import Comment from '@components/Comment.vue';
 import { getComment, getSongLyric } from '@services/CurrentMusicBoard';
 
 import { formatToMinute } from '@utils';
@@ -163,7 +161,7 @@ export default class Default extends Vue {
     const arr = this.lyric.split('\n');
     // const pattern = /\[\d{2}:\d{2}.\d{2}\]/g;
     const pattern = /\[(\d+:.+?)\]/g;
-    arr.forEach((line, index) => {
+    arr.forEach((line) => {
       // 可能会有多个时间段
 
       const lineArray: any = line.match(pattern);
@@ -180,11 +178,12 @@ export default class Default extends Vue {
       }
     });
     this.lyricArr.sort((a: any, b: any) => a.time - b.time);
+
     console.log(this.lyricArr);
   }
 
   @Watch('currentTime')
-  currentTimeChange(newVal: number, oldVal: number) {
+  currentTimeChange(newVal: number) {
     const lyricContainer: any = this.$refs.lyric;
     // console.log(this.lyricArr);
     for (let i = 0; i < this.lyricArr.length; i += 1) {

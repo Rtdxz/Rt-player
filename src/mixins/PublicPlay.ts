@@ -1,6 +1,4 @@
-import {
-  Component, Vue, Watch, Prop,
-} from 'vue-property-decorator';
+import { Vue } from 'vue-property-decorator';
 
 import { getMusicUrl } from '@services/PlayListDetail';
 import { dateFormat, timeFormat, Rank } from '@utils';

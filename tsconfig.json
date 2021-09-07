@@ -23,7 +23,7 @@
       "@constant": ["src/constants"],
       "@store": ["src/store"],
       "@utils": ["src/utils"],
-      "@mixins": ["src/mixins"]
+      "@mixins/*": ["src/mixins/*"]
     },
     "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
   },

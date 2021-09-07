@@ -1,35 +1,30 @@
 <template>
-  <div class="searchPlayList">
+  <div class="searchUser">
     <div
-      class="searchPlayList-container"
+      class="searchUser-container"
       v-loading="isLoading"
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading"
       element-loading-custom-class="loading_color"
     >
       <div
-        class="searchPlayList-item"
-        v-for="item in content.playlists"
+        class="searchUser-item"
+        v-for="item in content.userprofiles"
         :key="item.id"
       >
         <div
-          class="searchPlayList-item-pic"
-          :style="{ backgroundImage: `url(${item.coverImgUrl})` }"
+          class="searchUser-item-pic"
+          :style="{ backgroundImage: `url(${item.avatarUrl})` }"
         ></div>
-        <div class="searchPlayList-item-name">{{ item.name }}</div>
-        <div class="searchPlayList-item-count">{{ item.trackCount }}首</div>
-
-        <div class="searchPlayList-item-creator">
-          <span style="color:#cfcfcf;margin-right:10px">by</span>
-          {{ item.creator.nickname }}
-        </div>
+        <div class="searchUser-item-name">{{ item.nickname }}</div>
+        <div class="searchUser-item-signature">{{ item.signature }}</div>
       </div>
     </div>
     <el-pagination
       background
       layout="prev, pager, next"
       :page-size="20"
-      :total="Math.ceil(content.playlistCount / 20) * 20"
+      :total="Math.ceil(content.userprofileCount / 20) * 20"
       :pager-count="9"
       class="msg-pagination-container"
       @current-change="getData"
@@ -39,27 +34,27 @@
 </template>
 
 <script lang="ts">
-import { Component, Mixins } from 'vue-property-decorator';
 import { PublicSearchPage } from '@mixins/PublickSearchPage';
+import { Component, Mixins } from 'vue-property-decorator';
 
 @Component({
-  name: 'SearchByPlayList',
+  name: 'SearchByUser',
 })
 export default class Default extends Mixins(PublicSearchPage) {
-  type = 1000;
+  type = 1002;
 
   limit = 20;
 
   async mounted() {
     await this.getData(1);
-    this.$emit('changeContentCount', this.content.playlistCount);
+    this.$emit('changeContentCount', this.content.userprofileCount);
     console.log(this.content);
   }
 }
 </script>
 
 <style scoped lang="scss">
-.searchPlayList {
+.searchUser {
   &-container {
     min-height: 100px;
   }
@@ -84,30 +79,18 @@ export default class Default extends Mixins(PublicSearchPage) {
       background-repeat: no-repeat;
       background-size: 100% 100%;
       background-position: center center;
-      border-radius: 7px;
+      border-radius: 50%;
       cursor: pointer;
     }
     &-name {
       font-size: 14px;
-      margin-left: 10px;
+      margin-left: 20px;
       cursor: pointer;
     }
-    &-count {
+    &-signature {
       position: absolute;
-      right: 46%;
-      width: 100px;
-      color: #9f9f9f;
-    }
-    &-creator {
-      position: absolute;
-      display: flex;
-      right: 25%;
-      width: 200px;
-      color: #656565;
-      cursor: pointer;
-      &:hover {
-        color: #000;
-      }
+      right: 30px;
+      color: #a599b2;
     }
   }
 }

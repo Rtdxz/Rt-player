@@ -177,16 +177,14 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Vue, Watch, Prop,
-} from 'vue-property-decorator';
+import { Component, Watch } from 'vue-property-decorator';
 
 import TabBar from '@components/TabBar.vue';
 import SvgIcon from '@components/svg/SvgIcon.vue';
-import Comment from '@components/PlayListDetail/Comment.vue';
+import Comment from '@components/Comment.vue';
 import SongItemList from '@components/SongItemList.vue';
 
-import { PublicPlay } from '@mixins';
+import { PublicPlay } from '@mixins/PublicPlay';
 
 import {
   getPlayListDetailInfo,
@@ -288,7 +286,7 @@ export default class Default extends PublicPlay {
   tabBarList: any[] = [];
 
   @Watch('$route')
-  async getWatchValue(newVal: string, oldVal: string) {
+  async getWatchValue() {
     this.currentContent = 0;
     this.comment = {};
     this.ids = '';
@@ -308,7 +306,7 @@ export default class Default extends PublicPlay {
 
     this.playListContent = list.data;
     this.isLoading = false;
-    // console.log(this.playListContent.songs);
+
     const params = {
       id: this.$route.params.id,
       limit: 20,
@@ -332,9 +330,6 @@ export default class Default extends PublicPlay {
       },
     ];
   }
-
-  @Prop({ default: 'default value' })
-  propA!: string;
 
   async created() {
     this.currentContent = 0;

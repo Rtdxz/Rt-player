@@ -75,14 +75,12 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Vue, Watch, Prop,
-} from 'vue-property-decorator';
+import { Component, Watch, Prop } from 'vue-property-decorator';
 import SvgIconController from '@components/svg/MusicController/SvgIconController.vue';
 import SvgIcon from '@components/svg/SvgIcon.vue';
 import { timeFormat, timeHandle } from '@utils';
 import { mapState } from 'vuex';
-import { PublicPlay } from '@mixins';
+import { PublicPlay } from '@mixins/PublicPlay';
 
 @Component({
   name: 'MusicController',

@@ -1,50 +1,61 @@
 <template>
-  <div class="ss">
+  <div class="searchSong">
     <song-item-list
-      :playListContent="playListContent"
+      :playListContent="content"
       :isLoading="isLoading"
     ></song-item-list>
+    <el-pagination
+      background
+      layout="prev, pager, next"
+      :page-size="100"
+      :total="Math.ceil(content.songCount / 100) * 100"
+      :pager-count="9"
+      class="msg-pagination-container"
+      @current-change="getData"
+    >
+    </el-pagination>
   </div>
 </template>
 
 <script lang="ts">
-import {
-  Component, Vue, Watch, Prop,
-} from 'vue-property-decorator';
+import { Component, Mixins } from 'vue-property-decorator';
 
 import SongItemList from '@components/SongItemList.vue';
-import { mapState } from 'vuex';
-import { Search } from '@services/Search';
+
+import { PublicSearchPage } from '@mixins/PublickSearchPage';
 
 @Component({
   name: 'SearchBySong',
   components: {
     SongItemList,
   },
-  computed: {
-    ...mapState(['searchKeywords']),
-  },
 })
-export default class Default extends Vue {
-  searchKeywords!: string;
-
+export default class Default extends Mixins(PublicSearchPage) {
   isLoading = true;
 
-  playListContent: any = {};
+  type = 1;
 
-  @Watch('name')
-  getWatchValue(newVal: string, oldVal: string) {
-    console.log(newVal, oldVal);
-  }
+  limit = 100;
+  // async getData(page: number) {
+  //   const params: any = {
+  //     keywords: this.searchKeywords,
+  //     offset: (page - 1) * 100,
+  //     limit: 100,
+  //     type: this.type,
+  //   };
+  //   this.playListContent = {};
+  //   const container: any = document.querySelector('.searchPageContainer');
+  //   container.scrollTop = 0;
+  //   this.isLoading = true;
+  //   const res = await Search(params);
+  //   console.log(res.data.result);
+  //   this.playListContent = res.data.result;
+  //   this.isLoading = false;
+  // }
 
-  @Prop({ default: 'default value' })
-  propA!: string;
-
-  async created() {
-    const res = await Search(this.searchKeywords);
-    console.log(res.data.result);
-    this.playListContent = res.data.result;
-    this.isLoading = false;
+  async mounted() {
+    await this.getData(1);
+    this.$emit('changeContentCount', this.content.songCount);
   }
   // mounted() { }
 }
@@ -52,4 +63,7 @@ export default class Default extends Vue {
 
 <style scoped lang="scss">
 // @import './index.scss';
+.searchSong {
+  margin: 0 30px 0;
+}
 </style>

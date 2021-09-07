@@ -13,6 +13,12 @@ import PlayListDetail from '@views/PlayListDetail.vue';
 import SearchPage from '@views/SearchPage/SearchPage.vue';
 import SearchBySong from '@views/SearchPage/SearchBySong.vue';
 
+import SearchByArtist from '@views/SearchPage/SearchByArtist.vue';
+import SearchByAlbum from '@views/SearchPage/SearchByAlbum.vue';
+import SearchByMV from '@views/SearchPage/SearchByMV.vue';
+import SearchByPlayList from '@views/SearchPage/SearchByPlayList.vue';
+import SearchByUser from '@views/SearchPage/SearchByUser.vue';
+
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
@@ -77,9 +83,36 @@ const routes: Array<RouteConfig> = [
         path: 'SearchBySong',
         component: SearchBySong,
       },
+      {
+        path: 'SearchByArtist',
+        component: SearchByArtist,
+      },
+      {
+        path: 'SearchByAlbum',
+        component: SearchByAlbum,
+      },
+      {
+        path: 'SearchByMV',
+        component: SearchByMV,
+      },
+      {
+        path: 'SearchByPlayList',
+        component: SearchByPlayList,
+      },
+      {
+        path: 'SearchByUser',
+        component: SearchByUser,
+      },
     ],
   },
 ];
+
+// 解决ElementUI导航栏中的vue-router在3.0版本以上重复点菜单报错问题
+const originalPush = VueRouter.prototype.push;
+VueRouter.prototype.push = function push(location: any): any {
+  const s: any = originalPush.call(this, location);
+  return s.catch((err: any) => err);
+};
 
 const router = new VueRouter({
   mode: 'history',
