@@ -1,7 +1,15 @@
 <template>
   <div
     class="SongSheet_item"
-    @click="$router.push(`/PlayListDetail/${item.id}`)"
+    :style="{ width: Width() }"
+    :class="{ leftestItem: left }"
+    @click="
+      $router.push({
+        name: 'PlayListDetail',
+        path: 'PlayListDetail',
+        params: { id: item.id },
+      })
+    "
   >
     <div
       class="SongSheet_item_pic"
@@ -16,6 +24,9 @@
     </div>
     <div class="SongSheet_item_title item_title">
       {{ item.name }}
+    </div>
+    <div class="SongSheet_item_count " v-if="showCount">
+      {{ item.trackCount }}首
     </div>
   </div>
 </template>
@@ -46,8 +57,21 @@ export default class Default extends Vue {
     } else if (this.type === 'SongSheet') {
       item.picUrl = this.item.coverImgUrl;
       item.playcount = this.playCount(this.item.playCount);
+    } else if (this.type === 'Detail') {
+      item.picUrl = this.item.coverImgUrl;
+      item.playcount = this.playCount(this.item.playCount);
     }
     return item;
+  }
+
+  Width() {
+    if (this.type === 'Individuation' || this.type === 'SongSheet') {
+      return '20%';
+    }
+    if (this.type === 'Detail') {
+      return '16.6%';
+    }
+    return '20%';
   }
 
   // 播放量换算
@@ -65,6 +89,12 @@ export default class Default extends Vue {
 
   @Prop({ default: 'Individuation' })
   type?: string;
+
+  @Prop({ default: false })
+  left?: boolean;
+
+  @Prop({ default: false })
+  showCount?: boolean;
   // created() { }
   // mounted() { }
 }
@@ -75,16 +105,14 @@ export default class Default extends Vue {
 
 .SongSheet_item {
   padding: 10px;
-  &:nth-child(5n + 1) {
-    padding-left: 0;
-  }
-  width: 20%;
+
   box-sizing: border-box;
   &_pic {
     position: relative;
-    height: 1.30719rem;
+    width: 1.354167rem;
+    height: 1.354167rem;
     background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: cover;
     background-position: center center;
     border-radius: 7px;
     box-shadow: 0px 10px 40px #8a8a8a inset;
@@ -111,7 +139,27 @@ export default class Default extends Vue {
     margin-top: 10px;
     font-size: 14px;
     cursor: pointer;
+    color: #373737;
   }
+  &_count {
+    font-size: 12px;
+    color: #9f9f9f;
+    margin-top: 5px;
+  }
+}
+.item_title {
+  &:hover {
+    font-size: 14px;
+    color: #000;
+  }
+  font-weight: 400;
+  width: fit-content;
+  // margin-top: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.leftestItem {
+  padding-left: 0;
 }
 @media screen and (max-width: 1250px) {
   .SongSheet_item {

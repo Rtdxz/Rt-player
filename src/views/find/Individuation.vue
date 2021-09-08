@@ -46,9 +46,10 @@
       </div>
       <div class="recommandSongSheet_content">
         <song-sheet-item
-          v-for="item in recommandSongSheet.recommend.length !== 0
+          v-for="(item,index) in recommandSongSheet.recommend.length !== 0
             ? recommandSongSheet.recommend.slice(0, 10)
             : recommandPlayList"
+            :left="Number(index) % 5 === 0"
           :key="item.id"
           :item="item"
           :type="'Individuation'"

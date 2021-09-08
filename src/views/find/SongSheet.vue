@@ -2,10 +2,11 @@
   <div class="SongSheet" ref="SongSheet">
     <div class="SongSheet_container" v-loading="isLoading">
       <song-sheet-item
-        v-for="item in playList.playlists"
+        v-for="(item,index) in playList.playlists"
         :key="item.id"
         :item="item"
         :type="'SongSheet'"
+        :left="Number(index) % 5 === 0"
       >
       </song-sheet-item>
     </div>

@@ -102,4 +102,7 @@ div {
 html {
   overflow-x: hidden;
 }
+.highlights-text {
+  color: #ff5134;
+}
 </style>

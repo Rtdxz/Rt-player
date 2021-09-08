@@ -48,7 +48,7 @@
           <div
             class="artist"
             v-for="(artist, index) in item.ar"
-            :key="artist.id"
+            :key="artist.name"
           >
             <span class="slash" v-if="item.ar.length > 1 && index != 0">
               /

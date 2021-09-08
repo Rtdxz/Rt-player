@@ -23,7 +23,15 @@ export class PublicSearchPage extends Vue {
   async getWatchValue(newVal: string, oldVal: string) {
     if (newVal === '') return;
     await this.getData(1);
-    this.$emit('changeContentCount', this.content.userprofileCount);
+    this.$emit(
+      'changeContentCount',
+      this.content.userprofileCount
+        || this.content.songCount
+        || this.content.albumCount
+        || this.content.playlistCount
+        || this.content.artistCount
+        || this.content.videoCount,
+    );
   }
 
   async getData(page: number) {
@@ -40,8 +48,22 @@ export class PublicSearchPage extends Vue {
     container.scrollTop = 0;
     this.isLoading = true;
     const res = await Search(params);
+
     console.log(res.data.result);
     this.content = res.data.result;
     this.isLoading = false;
+  }
+
+  brightKeyword(val: any) {
+    const keyword = this.searchKeywords; // 获取输入框输入的内容
+    if (val.indexOf(keyword) !== -1) {
+      // 判断这个字段中是否包含keyword
+      // 如果包含的话，就把这个字段中的那一部分进行替换成html字符
+      return val.replace(
+        keyword,
+        `<span class="highlights-text">${keyword}</span>`,
+      );
+    }
+    return val;
   }
 }

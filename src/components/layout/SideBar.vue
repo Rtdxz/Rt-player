@@ -29,7 +29,13 @@
           class="sidebar-item min"
           v-for="(item, index) in createdPlayList"
           :key="item.id"
-          @click="$router.push(`/PlayListDetail/${item.id}`)"
+          @click="
+            $router.push({
+              name: 'PlayListDetail',
+              path: '/PlayListDetail/',
+              params: { id: item.id },
+            })
+          "
         >
           <svg-icon
             type="Heart"
@@ -53,7 +59,11 @@
           class="sidebar-item min"
           v-for="item in collectPlayList"
           :key="item.id"
-          @click="$router.push(`/PlayListDetail/${item.id}`)"
+          @click=" $router.push({
+              name: 'PlayListDetail',
+              path: '/PlayListDetail/',
+              params: { id: item.id },
+            })"
         >
           <svg-icon type="PlayList" class="sidebar-icon"></svg-icon>
           {{ item.name }}

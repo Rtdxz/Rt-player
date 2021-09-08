@@ -10,7 +10,10 @@
           <span class="icon">歌单</span>
           <div class="text">{{ playListInfo.name }}</div>
         </div>
-        <div class="playListDetail-info_user">
+        <div
+          class="playListDetail-info_user"
+          @click="$router.push(`/UserDetail/${playListInfo.creator.userId}`)"
+        >
           <div
             class="playListDetail-info_user_avatar"
             :style="{
@@ -61,7 +64,7 @@
               {{
                 playListInfo.playCount > 10000
                   ? Math.floor(playListInfo.playCount / 10000) + '万'
-                  : playListInfo.playcount
+                  : playListInfo.playCount
               }}
             </span>
           </div>

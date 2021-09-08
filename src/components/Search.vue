@@ -3,7 +3,7 @@
     <svg-icon type="search" class="icon"></svg-icon>
     <input
       type="text"
-      @focus="isShowSearchBoard = true"
+      @focus="Focus"
       @keydown.enter="GotoSearchPage"
       @input="debounceSearch"
       @blur="isShowSearchBoard = false"
@@ -22,6 +22,7 @@
             class="searchBoard-hot_item"
             v-for="(item, index) in hotSearchList"
             :key="item.id"
+            @mousedown="hotSearch(item.searchWord)"
           >
             <div
               class="searchBoard-hot_item-rank"
@@ -165,6 +166,16 @@ export default class Default extends PublicPlay {
     const res = await getSongDetail(item.id);
     const musicDetail = res.data.songs[0];
     this.playMusic(musicDetail);
+  }
+
+  hotSearch(keywords: string) {
+    this.keywords = keywords;
+    this.GotoSearchPage();
+  }
+
+  Focus() {
+    this.debounceSearch();
+    this.isShowSearchBoard = true;
   }
 
   GotoSearchPage() {

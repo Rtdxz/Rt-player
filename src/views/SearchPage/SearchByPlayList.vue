@@ -11,6 +11,13 @@
         class="searchPlayList-item"
         v-for="item in content.playlists"
         :key="item.id"
+        @click="
+          $router.push({
+            name: 'PlayListDetail',
+            path: '/PlayListDetail/',
+            params: { id: item.id },
+          })
+        "
       >
         <div
           class="searchPlayList-item-pic"

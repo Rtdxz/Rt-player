@@ -12,7 +12,11 @@
       </div>
       <Search></Search>
     </div>
-    <div class="header-user" v-if="isLogin">
+    <div
+      class="header-user"
+      v-if="isLogin"
+      @click="$router.push(`/UserDetail/${userId}`)"
+    >
       <div
         class="header-user-avatar"
         :style="{ backgroundImage: `url(${userInfo.avatarUrl})` }"
@@ -44,13 +48,15 @@ import { mapState } from 'vuex';
     Search,
   },
   computed: {
-    ...mapState(['isLogin', 'userInfo']),
+    ...mapState(['isLogin', 'userInfo', 'userId']),
   },
 })
 export default class Default extends Vue {
   isLogin!: boolean;
 
   userInfo!: any;
+
+  userId!: SVGStringList;
 
   logout() {
     this.$store.commit('logout');

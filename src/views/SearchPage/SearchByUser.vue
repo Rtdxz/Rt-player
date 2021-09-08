@@ -16,7 +16,21 @@
           class="searchUser-item-pic"
           :style="{ backgroundImage: `url(${item.avatarUrl})` }"
         ></div>
-        <div class="searchUser-item-name">{{ item.nickname }}</div>
+        <div class="searchUser-item-name">
+          <span v-if="item.nickname.indexOf(searchKeywords) === -1">{{
+            item.nickname
+          }}</span>
+          <span v-else
+            >{{
+              item.nickname.substring(0, item.nickname.indexOf(searchKeywords))
+            }}<span style="color:#507daf">{{ searchKeywords }}</span
+            >{{
+              item.nickname.substring(
+                item.nickname.indexOf(searchKeywords) + searchKeywords.length,
+              )
+            }}</span
+          >
+        </div>
         <div class="searchUser-item-signature">{{ item.signature }}</div>
       </div>
     </div>
@@ -90,7 +104,7 @@ export default class Default extends Mixins(PublicSearchPage) {
     &-signature {
       position: absolute;
       right: 30px;
-      color: #a599b2;
+      color: #cecece;
     }
   }
 }

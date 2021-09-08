@@ -19,6 +19,8 @@ import SearchByMV from '@views/SearchPage/SearchByMV.vue';
 import SearchByPlayList from '@views/SearchPage/SearchByPlayList.vue';
 import SearchByUser from '@views/SearchPage/SearchByUser.vue';
 
+import UserDetail from '@views/UserDetail.vue';
+
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
@@ -61,6 +63,11 @@ const routes: Array<RouteConfig> = [
     path: '/PlayListDetail/:id',
     name: 'PlayListDetail',
     component: PlayListDetail,
+  },
+  {
+    path: '/UserDetail/:uid',
+    name: 'UserDetail',
+    component: UserDetail,
   },
   {
     path: '/about',

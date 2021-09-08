@@ -43,7 +43,8 @@
         <song-sheet-item
           :type="'SongSheet'"
           :item="item"
-          v-for="item in globallist"
+          v-for="(item, index) in globallist"
+          :left="Number(index) % 5 === 0"
           :key="item.id"
         ></song-sheet-item>
       </div>
