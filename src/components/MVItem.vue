@@ -1,18 +1,16 @@
 <template>
-  <div class="mvItem">
+  <div class="mvItem" :style="{ width: Width() }">
     <div
       class="mvItem_pic"
       :style="{
-        backgroundImage: `url(${item.coverUrl || item.picUrl})`,
+        backgroundImage: `url(${item.coverUrl || item.picUrl || item.imgurl})`,
         height: picHeight,
       }"
     >
       <div class="mvItem_playcount">
         <svg-icon type="play3" class="mvItem_icon"></svg-icon
         >{{
-          item.playCount || item.playTime > 10000
-            ? Math.floor(item.playCount || item.playTime / 10000) + '万'
-            : item.playCount || item.playTime
+          item.playCount ? PlayCount(item.playCount) : PlayCount(item.playTime)
         }}
       </div>
       <div class="mvItem_duration" v-if="item.durationms">
@@ -22,7 +20,7 @@
     <div class="mvItem_title item_title">
       {{ item.name || item.title }}
     </div>
-    <div class="mvItem_artist ">
+    <div class="mvItem_artist " v-if="item.artists || item.creator">
       {{ item.artists ? item.artists[0].name : item.creator[0].userName }}
     </div>
   </div>
@@ -43,11 +41,27 @@ import { timeHandle } from '@utils';
 export default class Default extends Vue {
   timeHandle = timeHandle;
 
+  Width() {
+    console.log(this.width);
+    return `${(1 / this.width) * 100}%`;
+  }
+
+  PlayCount(count: number) {
+    if (count > 10000) {
+      return `${Math.floor(count / 10000)}万`;
+    }
+
+    return count;
+  }
+
   @Prop()
   item!: any;
 
   @Prop({ default: '0.960784rem' })
   picHeight!: string;
+
+  @Prop({ default: 4 })
+  width!: number;
 
   // created() { }
   // mounted() { }
@@ -59,14 +73,15 @@ export default class Default extends Vue {
   &:first-child {
     padding-left: 0;
   }
-  flex: 1;
+
   padding: 10px;
+  box-sizing: border-box;
   &_pic {
     position: relative;
     // width: 1.699346rem;
     height: 0.960784rem;
     background-repeat: no-repeat;
-    background-size: 100% 100%;
+    background-size: cover;
     background-position: center center;
     border-radius: 7px;
     cursor: pointer;

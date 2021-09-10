@@ -57,20 +57,21 @@ export default class Default extends Vue {
 
   login() {
     if (this.checkPhone()) {
-      login({ phone: this.phoneNumber, password: this.password }).then(
-        (res) => {
-          if (res.data.code === 200) {
-            this.$message({ message: '登录成功', type: 'success' });
-            this.close();
-            console.log(res.data);
-            this.$store.commit('login', res.data);
-            // 刷新数据
-            this.$router.go(0);
-          } else {
-            this.$message({ message: res.data.msg, type: 'error' });
-          }
-        },
-      );
+      login({
+        phone: encodeURIComponent(this.phoneNumber),
+        password: encodeURIComponent(this.password),
+      }).then((res) => {
+        if (res.data.code === 200) {
+          this.$message({ message: '登录成功', type: 'success' });
+          this.close();
+          console.log(res.data);
+          this.$store.commit('login', res.data);
+          // 刷新数据
+          this.$router.go(0);
+        } else {
+          this.$message({ message: res.data.msg, type: 'error' });
+        }
+      });
     } else {
       this.$message({ message: '请输入正确的手机号码', type: 'error' });
     }

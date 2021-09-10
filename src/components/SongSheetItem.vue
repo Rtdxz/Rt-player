@@ -3,21 +3,15 @@
     class="SongSheet_item"
     :style="{ width: Width() }"
     :class="{ leftestItem: left }"
-    @click="
-      $router.push({
-        name: 'PlayListDetail',
-        path: 'PlayListDetail',
-        params: { id: item.id },
-      })
-    "
+    @click="gotoPage()"
   >
     <div
       class="SongSheet_item_pic"
       :style="{
-        backgroundImage: `url(${Item().picUrl})`,
+        backgroundImage: `url(${item.picUrl || item.coverImgUrl})`,
       }"
     >
-      <div class="SongSheet_item_playcount">
+      <div class="SongSheet_item_playcount" v-if="Item().playcount">
         <svg-icon type="play3" class="SongSheet_item_icon"></svg-icon
         >{{ Item().playcount }}
       </div>
@@ -79,6 +73,23 @@ export default class Default extends Vue {
     return playcount > 10000 ? `${Math.floor(playcount / 10000)}万` : playcount;
   }
 
+  gotoPage() {
+    // console.log(this.item.id);
+    if (this.category === 'SongSheet') {
+      this.$router.push({
+        name: 'PlayListDetail',
+        path: '/PlayListDetail/',
+        params: { id: this.item.id.toString() },
+      });
+    } else if (this.category === 'album') {
+      this.$router.push({
+        name: 'AlbumDetail',
+        path: '/AlbumDetail/',
+        params: { id: this.item.id.toString() },
+      });
+    }
+  }
+
   @Watch('name')
   getWatchValue(newVal: string, oldVal: string) {
     console.log(newVal, oldVal);
@@ -95,6 +106,9 @@ export default class Default extends Vue {
 
   @Prop({ default: false })
   showCount?: boolean;
+
+  @Prop({ default: 'SongSheet' })
+  category?: string;
   // created() { }
   // mounted() { }
 }
@@ -104,12 +118,13 @@ export default class Default extends Vue {
 // @import './index.scss';
 
 .SongSheet_item {
+  // margin: 14px 0px 3px;
   padding: 10px;
 
   box-sizing: border-box;
   &_pic {
     position: relative;
-    width: 1.354167rem;
+    width: 100%;
     height: 1.354167rem;
     background-repeat: no-repeat;
     background-size: cover;

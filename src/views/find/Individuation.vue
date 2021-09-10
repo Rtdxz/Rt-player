@@ -134,7 +134,7 @@
         推荐MV<svg-icon type="right-arrow" class="icon"></svg-icon>
       </div>
       <div class="recommandMV_content">
-        <MVItem v-for="item in mv.result" :key="item.id" :item="item"></MVItem>
+        <MVItem v-for="item in mv.result" :key="item.id" :item="item" :width=4></MVItem>
         <!-- <div
           class="recommandMV_content_item"
           v-for="item in mv.result"

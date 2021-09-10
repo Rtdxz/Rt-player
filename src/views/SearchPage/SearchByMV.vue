@@ -13,6 +13,7 @@
         :key="item.id"
         :item="item"
         :picHeight="'1.157516rem'"
+        :width="4"
       >
       </MVItem>
     </div>

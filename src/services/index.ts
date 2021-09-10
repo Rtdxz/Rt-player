@@ -42,7 +42,7 @@ export const getRecommandSongSheet = () => request({
 });
 
 export const login = (params: any) => request({
-  method: 'get',
+  method: 'post',
   url: '/login/cellphone',
   params,
 });

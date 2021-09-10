@@ -2,27 +2,12 @@
   <div class="">
     <div class="artistList-select">选择</div>
     <div class="artistList-content">
-      <div
-        class="artistList-content_item"
+      <artist-item
         v-for="item in artistList.artists"
         :key="item.id"
-      >
-        <div
-          class="artistList-content_item_pic"
-          :style="{ backgroundImage: `url(${item.img1v1Url})` }"
-        ></div>
-        <div class="artistList-content_item_title">
-          <div class="artistList-content_item_name">
-            {{ item.name }}
-            <!-- <svg-icon type="singer" v-if="item.accountId"></svg-icon> -->
-          </div>
-          <svg-icon
-            type="singer"
-            class="artistList-content_item_icon"
-            v-if="item.accountId"
-          ></svg-icon>
-        </div>
-      </div>
+        :item="item"
+        :width="6"
+      ></artist-item>
     </div>
   </div>
 </template>
@@ -35,10 +20,13 @@ import {
 import { getArtistList } from '@services/Artist';
 import SvgIcon from '@components/svg/SvgIcon.vue';
 
+import ArtistItem from '@components/ArtistItem.vue';
+
 @Component({
-  name: 'Default',
+  name: 'Artist',
   components: {
     SvgIcon,
+    ArtistItem,
   },
 })
 export default class Default extends Vue {
@@ -75,53 +63,6 @@ export default class Default extends Vue {
   &-content {
     display: flex;
     flex-wrap: wrap;
-    &_item {
-      &:nth-child(6n + 1) {
-        padding-left: 0;
-      }
-      // margin-bottom: 20px;
-      width: 1/6 * 100%;
-      padding: 0 10px 20px;
-      box-sizing: border-box;
-      &_pic {
-        position: relative;
-        // width: 1.045752rem;
-        height: 1.045752rem;
-        background-repeat: no-repeat;
-        background-size: 100%;
-        background-position: center center;
-        border-radius: 7px;
-        cursor: pointer;
-      }
-      &_title {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin: 10px 0 0px;
-      }
-      &_name {
-        font-size: 15px;
-        color: #373737;
-        cursor: pointer;
-        &:hover {
-          color: #000;
-        }
-      }
-      &_icon {
-        cursor: pointer;
-        width: 16px;
-        height: 16px;
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 1250px) {
-  .artistList {
-    &-content_item_pic {
-      width: 130px;
-      height: 130px;
-    }
   }
 }
 </style>

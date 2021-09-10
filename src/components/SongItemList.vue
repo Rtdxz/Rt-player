@@ -49,6 +49,7 @@
             class="artist"
             v-for="(artist, index) in item.ar"
             :key="artist.name"
+            @click="$router.push(`/ArtistDetail/${artist.id}`)"
           >
             <span class="slash" v-if="item.ar.length > 1 && index != 0">
               /

@@ -56,15 +56,33 @@
           </div>
         </div>
         <div class="userDetail-info-city" v-if="city[userInfo.profile.city]">
-          <span style="color:#373737"> 所在地区: </span
+          <span style="color:#373737">所在地区: </span
           >{{ city[userInfo.profile.city] }}
         </div>
         <div class="userDetail-info-network">
-          <span style="color:#373737"> 社交网络:</span> 未绑定
+          <span style="color:#373737">社交网络:</span> 未绑定
         </div>
-        <div class="userDetail-info-signature">
+        <!-- <div class="userDetail-info-signature">
           <span style="color:#373737"> 个人介绍:</span>
           {{ userInfo.profile.signature }}
+        </div> -->
+        <div
+          class="userDetail-info-signature"
+          v-if="userInfo.profile.signature"
+          :class="{ hide: isHideSignature }"
+        >
+          <span style="color:#373737">个人介绍 :</span>
+          {{ userInfo.profile.signature }}
+          <i
+            class="el-icon-caret-top icon"
+            v-if="!isHideSignature && userInfo.profile.signature"
+            @click="isHideSignature = !isHideSignature"
+          ></i>
+          <i
+            class="el-icon-caret-bottom icon"
+            v-else-if="isHideSignature && userInfo.profile.signature"
+            @click="isHideSignature = !isHideSignature"
+          ></i>
         </div>
       </div>
     </div>
@@ -112,7 +130,7 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
-import { getUserPlayList, getUsetDetail } from '@services/UserDetail';
+import { getUserPlayList, getUserDetail } from '@services/UserDetail';
 import { city } from '@/assets/city';
 import { mapState } from 'vuex';
 import SvgIcon from '@components/svg/SvgIcon.vue';
@@ -139,18 +157,25 @@ export default class Default extends Vue {
 
   userCollectPlayList: any = [];
 
+  isHideSignature = true;
+
   IsCurrentUser() {
     if (this.userInfo.userPoint) return this.userId === this.userInfo.userPoint.userId;
     return false;
   }
 
-  @Watch('name')
-  getWatchValue(newVal: string, oldVal: string) {
-    console.log(newVal, oldVal);
+  async mounted() {
+    await this.getData();
   }
 
-  async mounted() {
-    const userDetail = await getUsetDetail(this.$route.params.uid);
+  @Watch('$route')
+  async getData() {
+    this.userInfo = {};
+    this.userCreatedPlayList = [];
+
+    this.userCollectPlayList = [];
+
+    const userDetail = await getUserDetail(this.$route.params.uid);
     this.userInfo = userDetail.data;
     const res = await getUserPlayList(this.$route.params.uid);
 
@@ -281,6 +306,34 @@ export default class Default extends Vue {
       font-size: 13px;
       color: #676767;
     }
+    &-signature {
+      width: 95%;
+      position: relative;
+      white-space: break-spaces;
+      line-height: 28px;
+      .icon {
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        font-size: 20px;
+        color: #999999 !important;
+        cursor: pointer;
+      }
+      &.hide {
+        position: relative;
+        width: 95%;
+        // height: 20px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        // line-height: 20px;
+        white-space: break-spaces;
+
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+      }
+    }
+
     &-city {
       font-size: 12px;
       margin: 0;

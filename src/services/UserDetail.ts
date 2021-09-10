@@ -1,6 +1,6 @@
 import request from 'xhr-axios';
 
-export const getUsetDetail = (uid: string) => request({
+export const getUserDetail = (uid: string) => request({
   method: 'get',
   url: '/user/detail',
   params: {

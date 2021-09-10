@@ -1,7 +1,6 @@
 <template>
   <svg
     t="1631075952094"
-    class="icon"
     viewBox="0 0 1836 1024"
     version="1.1"
     xmlns="http://www.w3.org/2000/svg"
