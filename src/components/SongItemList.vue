@@ -60,7 +60,10 @@
           </div>
           {{ item.artist }}
         </div>
-        <div class="songItemList_item_album item album">
+        <div
+          class="songItemList_item_album item album"
+          @click="$router.push(`/AlbumDetail/${item.al.id}`)"
+        >
           {{ item.al.name }}
         </div>
         <div class="songItemList_item_time item time">

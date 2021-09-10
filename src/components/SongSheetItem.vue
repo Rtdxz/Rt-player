@@ -82,6 +82,7 @@ export default class Default extends Vue {
         params: { id: this.item.id.toString() },
       });
     } else if (this.category === 'album') {
+      console.log(this.item.id);
       this.$router.push({
         name: 'AlbumDetail',
         path: '/AlbumDetail/',

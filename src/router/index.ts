@@ -22,6 +22,7 @@ import SearchByUser from '@views/SearchPage/SearchByUser.vue';
 import UserDetail from '@views/UserDetail.vue';
 import ArtistDetail from '@views/ArtistDetail.vue';
 import MVDetail from '@views/MVDetail.vue';
+import AlbumDetail from '@views/AlbumDetail.vue';
 
 Vue.use(VueRouter);
 
@@ -75,6 +76,11 @@ const routes: Array<RouteConfig> = [
     path: '/ArtistDetail/:id',
     name: 'ArtistDetail',
     component: ArtistDetail,
+  },
+  {
+    path: '/AlbumDetail/:id',
+    name: 'AlbumDetail',
+    component: AlbumDetail,
   },
   {
     path: '/MVDetail/:id',
