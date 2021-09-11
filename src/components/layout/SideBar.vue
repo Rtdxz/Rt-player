@@ -59,11 +59,13 @@
           class="sidebar-item min"
           v-for="item in collectPlayList"
           :key="item.id"
-          @click=" $router.push({
+          @click="
+            $router.push({
               name: 'PlayListDetail',
               path: '/PlayListDetail/',
               params: { id: item.id },
-            })"
+            })
+          "
         >
           <svg-icon type="PlayList" class="sidebar-icon"></svg-icon>
           {{ item.name }}
@@ -173,6 +175,7 @@ export default class Default extends Vue {
         this.collectPlayList = userPlayList.filter(
           (item: any) => item.subscribed,
         );
+        this.$router.go(0);
       });
     }
 

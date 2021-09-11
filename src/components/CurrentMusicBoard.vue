@@ -59,7 +59,7 @@
             }"
           ></div>
         </div>
-        <div class="currentMusicBoard-lyric" ref="lyric">
+        <div class="currentMusicBoard-lyric" ref="lyric" @scroll="Scroll">
           <div v-if="lyricType === 'noLyric'" style="margin:100px 0 0">
             还没有歌词哦~
           </div>
@@ -100,7 +100,7 @@ import { mapState } from 'vuex';
 import Comment from '@components/Comment.vue';
 import { getComment, getSongLyric } from '@services/CurrentMusicBoard';
 
-import { formatToMinute } from '@utils';
+import { formatToMinute, debounce } from '@utils';
 
 @Component({
   name: 'CurrentMusicBoard',
@@ -132,7 +132,22 @@ export default class Default extends Vue {
 
   timeArr: any[] = [];
 
+  isScroll = false;
+
   lyricType = 'lyric';
+
+  // 滚动防抖，直到不再滚动为止
+  debounceScroll = debounce(this.Scroll, 500);
+
+  // 如果当前正在滚动，就不使用自动跳到歌词，5S后要是没有再滚动就可以启用
+  Scroll() {
+    if (this.isScroll) return;
+    this.isScroll = true;
+    const a = setTimeout(() => {
+      this.isScroll = false;
+      clearTimeout(a);
+    }, 5000);
+  }
 
   open() {
     this.isShowCurrentMusicBoard = true;
@@ -190,7 +205,12 @@ export default class Default extends Vue {
       if (newVal > this.lyricArr[i].time) {
         const lyricLines: any = this.$refs.lyricLine;
         this.currentIndex = i;
-        if (lyricLines && lyricLines[this.currentIndex].offsetTop > 150) {
+        // 如果当前正在滚动，就不使用自动跳到歌词
+        if (
+          lyricLines
+          && lyricLines[this.currentIndex].offsetTop > 150
+          && !this.isScroll
+        ) {
           console.log(
             lyricContainer.scrollTop,
             lyricLines[this.currentIndex].offsetTop,

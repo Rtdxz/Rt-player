@@ -3,9 +3,14 @@
     <div
       class="comment-item_avatar"
       :style="{ backgroundImage: `url(${item.user.avatarUrl})` }"
+      @click="$router.push(`/UserDetail/${item.user.userId}`)"
     ></div>
     <div class="comment-item_content">
-      <span class="name"> {{ item.user.nickname }}</span
+      <span
+        class="name"
+        @click="$router.push(`/UserDetail/${item.user.userId}`)"
+      >
+        {{ item.user.nickname }}</span
       >: {{ item.content }}
       <div v-if="item.beReplied.length > 0" class="comment-item_replied">
         <div v-for="(citem, index) in item.beReplied" :key="index">
@@ -84,6 +89,7 @@ export default class Default extends Vue {
     background-size: 100% 100%;
     background-position: center center;
     border-radius: 50%;
+    cursor: pointer;
   }
   &_replied {
     margin: 3px 0 6px;

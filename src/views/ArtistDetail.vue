@@ -59,16 +59,19 @@
         v-if="artistAlbum.length && currentContent == 0"
       >
         <div class="artistDetail-body-album-container">
-          <song-sheet-item
-            class="artistDetail-body-album-item"
-            v-for="(item, index) in artistAlbum"
-            :key="item.id"
-            :item="item"
-            :type="'Detail'"
-            :category="'album'"
-            :left="Number(index) % 6 === 0"
-          >
-          </song-sheet-item>
+          <div class="container" v-if="artistAlbum.length !== 0">
+            <song-sheet-item
+              class="artistDetail-body-album-item"
+              v-for="(item, index) in artistAlbum"
+              :key="item.id"
+              :item="item"
+              :type="'Detail'"
+              :category="'album'"
+              :left="Number(index) % 6 === 0"
+            >
+            </song-sheet-item>
+          </div>
+          <div class="default" v-else>没有相关专辑</div>
         </div>
       </div>
       <div class="artistDetail-body-MV" v-else-if="currentContent == 1">
@@ -311,8 +314,10 @@ export default class Default extends Vue {
     }
     &-album {
       &-container {
-        display: flex;
-        flex-wrap: wrap;
+        .container {
+          display: flex;
+          flex-wrap: wrap;
+        }
       }
     }
     &-MV {

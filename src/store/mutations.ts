@@ -77,6 +77,7 @@ export const mutations = {
     state.isShowPlayListTable = isShowPlayListTable;
   },
   saveUserPlayList(state: State, userPlayList: any[]) {
+    console.log('save');
     state.userPlayList = userPlayList;
   },
   saveSearchKeywords(state: State, keywords: string) {

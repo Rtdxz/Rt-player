@@ -78,3 +78,22 @@ export const debounce = function (
     }, delay);
   };
 };
+
+// 节流
+export const throttle = function (
+  this: any,
+  fun: any,
+
+  delay = 500,
+) {
+  let timer: NodeJS.Timer | null = null;
+  console.log('b');
+  return (...args: any) => {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(() => {
+      fun.apply(this, args);
+    }, delay);
+  };
+};

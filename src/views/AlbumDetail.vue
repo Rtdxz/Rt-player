@@ -29,7 +29,7 @@
             下载全部
           </div>
         </div>
-        <div class="albumDetail-info_artist">
+        <div class="albumDetail-info_artist" v-if="albumInfo.artist">
           <span>歌手: </span
           ><span
             class="albumDetail-info_artist-content"

@@ -67,7 +67,7 @@ export default class Default extends Vue {
           console.log(res.data);
           this.$store.commit('login', res.data);
           // 刷新数据
-          this.$router.go(0);
+          // this.$router.go(0);
         } else {
           this.$message({ message: res.data.msg, type: 'error' });
         }

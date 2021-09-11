@@ -177,7 +177,7 @@ export default class Default extends PublicPlay {
     switch (this.playMode) {
       // 列表顺序播放
       case 0:
-        this.orderPlay(0, isClick, false);
+        this.orderPlay(type, isClick, false);
         break;
       // 心动模式
       case 1:
@@ -185,7 +185,7 @@ export default class Default extends PublicPlay {
         break;
       // 列表循环
       case 2:
-        this.orderPlay(0, isClick, true);
+        this.orderPlay(type, isClick, true);
         break;
       // 单曲循环
       case 3:
