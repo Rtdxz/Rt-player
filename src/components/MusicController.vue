@@ -4,7 +4,7 @@
       autoplay="autoplay"
       @start="start"
       @timeupdate="timeUpdate"
-      @ended="playNextMusic"
+      @ended="playNextMusic(0)"
       ref="audio"
       :src="$store.state.currentMusicUrl"
     ></audio>

@@ -2,9 +2,15 @@
   <div id="app">
     <!-- <router-view /> -->
     <Header @showLoginBar="showLoginBar"></Header>
-    <div class="middle"><side-bar></side-bar> <Main></Main></div>
+    <div class="middle" :class="{ withoutSide: isWithoutSide }">
+      <side-bar v-if="!isWithoutSide"></side-bar>
+      <Main :isWithoutSide="isWithoutSide"></Main>
+    </div>
 
-    <Footer @showCurrentMusicBoard="showCurrentMusicBoard"></Footer>
+    <Footer
+      @showCurrentMusicBoard="showCurrentMusicBoard"
+      v-if="!isWithoutSide"
+    ></Footer>
     <login-bar ref="LoginBar"></login-bar>
     <current-music-board ref="CurrentMusicBoard"></current-music-board>
 
@@ -13,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 
 import Header from '@components/layout/Header.vue';
 import Footer from '@components/layout/Footer.vue';
@@ -50,6 +56,8 @@ export default class Home extends Vue {
 
   userPlayList!: any[];
 
+  isWithoutSide = false;
+
   showCurrentMusicBoard() {
     const currentMusicBoard: any = this.$refs.CurrentMusicBoard;
     currentMusicBoard.open();
@@ -80,6 +88,25 @@ export default class Home extends Vue {
 
   mounted() {
     window.addEventListener('unload', this.saveState);
+    window.addEventListener('load', () => {
+      console.log(this.$route);
+      if (this.$route.path.indexOf('MVDetail') !== -1) {
+        this.isWithoutSide = true;
+      } else {
+        if (this.isWithoutSide === false) return;
+        this.isWithoutSide = false;
+      }
+    });
+  }
+
+  @Watch('$route')
+  watchRouter(newVal: any, oldVal: any) {
+    if (newVal.path.indexOf('MVDetail') !== -1) {
+      this.isWithoutSide = true;
+    } else {
+      if (this.isWithoutSide === false) return;
+      this.isWithoutSide = false;
+    }
   }
 }
 </script>
@@ -98,6 +125,9 @@ div {
   width: 100%;
   overflow: hidden;
   display: flex;
+}
+.withoutSide {
+  height: calc(100vh - 60px);
 }
 html {
   overflow-x: hidden;

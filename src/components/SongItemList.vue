@@ -42,7 +42,12 @@
             {{ `(${item.alia[0]})` }}
           </span>
           <!-- <svg-icon type="SQ" class="sqicon"></svg-icon> -->
-          <svg-icon type="MV" class="mvicon" v-if="item.mv != 0"></svg-icon>
+          <svg-icon
+            type="MV"
+            class="mvicon"
+            v-if="item.mv != 0"
+            @click.native="$router.push(`/MVDetail/${item.mv}`)"
+          ></svg-icon>
         </div>
         <div class="songItemList_item_artists item artists">
           <div

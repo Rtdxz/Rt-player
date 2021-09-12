@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="main" :class="{ big: isWithoutSide }">
     <router-view />
   </div>
 </template>
@@ -20,8 +20,8 @@ export default class Default extends Vue {
     console.log(newVal, oldVal);
   }
 
-  @Prop({ default: 'default value' })
-  propA!: string;
+  @Prop({ default: false })
+  isWithoutSide!: boolean;
 
   // created() {
   //   console.log('created');
@@ -40,5 +40,9 @@ export default class Default extends Vue {
   height: calc(100vh - 135px);
   width: calc(100vw - 200px);
   min-width: 1100px;
+}
+.big {
+  height: calc(100vh - 60px);
+  width: 100vw;
 }
 </style>

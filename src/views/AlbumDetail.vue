@@ -386,21 +386,7 @@ export default class Default extends PublicPlay {
     }
   }
 }
-.button {
-  height: 30px;
 
-  border: 1px solid #dfdfdf;
-  padding: 0 15px 0;
-  margin-right: 10px;
-  box-sizing: border-box;
-  line-height: 28px;
-  border-radius: 15px;
-  font-size: 14px;
-  cursor: pointer;
-  &:hover {
-    background-color: #f2f2f2;
-  }
-}
 .loading_color .el-loading-spinner i {
   color: #676767;
 }

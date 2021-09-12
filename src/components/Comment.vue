@@ -1,5 +1,5 @@
 <template>
-  <div class="comment">
+  <div class="comment" :class="{ withoutPadding: !hasPadding }">
     <el-input
       type="textarea"
       v-model="commentInfo"
@@ -96,6 +96,9 @@ export default class Default extends Vue {
 
   @Prop()
   comment!: any;
+
+  @Prop({ default: true })
+  hasPadding!: boolean;
   // created() { }
   // mounted() { }
 }
@@ -181,5 +184,8 @@ export default class Default extends Vue {
       }
     }
   }
+}
+.withoutPadding {
+  padding: 0;
 }
 </style>
