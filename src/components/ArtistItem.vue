@@ -6,7 +6,10 @@
   >
     <div
       class="artistItem_pic"
-      :style="{ height: picHeight, backgroundImage: `url(${item.img1v1Url})` }"
+      v-lazy:background-image="{ src: item.img1v1Url }"
+      :style="{
+        height: picHeight,
+      }"
     ></div>
     <div class="artistItem_title">
       <div class="artistItem_name">
@@ -23,9 +26,7 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Vue, Watch, Prop,
-} from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator';
 
 import SvgIcon from '@components/svg/SvgIcon.vue';
 
@@ -40,10 +41,7 @@ export default class Default extends Vue {
     return `${(1 / this.width) * 100}%`;
   }
 
-  @Watch('name')
-  getWatchValue(newVal: string, oldVal: string) {
-    console.log(newVal, oldVal);
-  }
+  urlIcon: any = {};
 
   @Prop()
   item!: any;
@@ -53,7 +51,11 @@ export default class Default extends Vue {
 
   @Prop({ default: '1.045752rem' })
   picHeight!: string;
-  // created() { }
+
+  created() {
+    // eslint-disable-next-line global-require
+    this.urlIcon = require('@/assets/img/loading.gif');
+  }
   // mounted() { }
 }
 </script>

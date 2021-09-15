@@ -164,7 +164,7 @@ export default class Default extends Vue {
   propA!: string;
 
   @Watch('isLogin')
-  changeLoginStatus(newVal: boolean, oldVal: boolean) {
+  changeLoginStatus(newVal: boolean) {
     if (newVal === true) {
       getUserPlayList(this.userId).then((res) => {
         const userPlayList = res.data.playlist;

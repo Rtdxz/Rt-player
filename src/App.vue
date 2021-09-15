@@ -100,7 +100,7 @@ export default class Home extends Vue {
   }
 
   @Watch('$route')
-  watchRouter(newVal: any, oldVal: any) {
+  watchRouter(newVal: any) {
     if (newVal.path.indexOf('MVDetail') !== -1) {
       this.isWithoutSide = true;
     } else {

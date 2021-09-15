@@ -3,7 +3,11 @@
     <div class="playListDetail-info">
       <div
         class="playListDetail-info_pic"
-        :style="{ backgroundImage: `url(${playListInfo.coverImgUrl})` }"
+        :style="{
+          backgroundImage: `url(${
+            playListInfo.coverImgUrl ? playListInfo.coverImgUrl : urlIcon
+          })`,
+        }"
       ></div>
       <div class="playListDetail-info_content">
         <div class="playListDetail-info_title">
@@ -18,7 +22,7 @@
             class="playListDetail-info_user_avatar"
             :style="{
               backgroundImage: `url(${
-                playListInfo.creator ? playListInfo.creator.avatarUrl : ''
+                playListInfo.creator ? playListInfo.creator.avatarUrl : urlIcon
               })`,
             }"
           ></div>
@@ -172,6 +176,8 @@
         @changeCommentPage="changeCommentPage"
         v-else-if="currentContent == 1"
         :comment="comment"
+        :type="2"
+        :id="$route.params.id"
       >
       </Comment>
       <div class="playListDetail-content_collector" v-else></div>
@@ -224,6 +230,8 @@ export default class Default extends PublicPlay {
   playListInfo: any = {};
 
   playListContent: any = {};
+
+  urlIcon: any = '~@/assets/img/disc.png';
 
   dateFormat = dateFormat;
 
@@ -289,7 +297,9 @@ export default class Default extends PublicPlay {
   tabBarList: any[] = [];
 
   @Watch('$route')
-  async getWatchValue() {
+  async getData() {
+    // eslint-disable-next-line global-require
+    this.urlIcon = require('@/assets/img/white.jpeg');
     this.currentContent = 0;
     this.comment = {};
     this.ids = '';
@@ -317,6 +327,7 @@ export default class Default extends PublicPlay {
     };
     const comment = await getComment(params);
     this.comment = comment.data;
+    console.log(this.comment);
     const { total } = this.comment;
     this.tabBarList = [
       {
@@ -335,47 +346,7 @@ export default class Default extends PublicPlay {
   }
 
   async created() {
-    this.currentContent = 0;
-    this.comment = {};
-    this.ids = '';
-    this.playListContent = {};
-    this.isLoading = true;
-    // console.log(this.$route.params.id);
-    const res = await getPlayListDetailInfo(this.$route.params.id);
-    this.playListInfo = res.data.playlist;
-    this.playListInfo.trackIds.forEach((ele: any) => {
-      // console.log(ele.id);
-      this.ids += `${ele.id},`;
-    });
-    // console.log(this.ids);
-    const list = await getPlayListContent(
-      this.ids.substr(0, this.ids.length - 1),
-    );
-
-    this.playListContent = list.data;
-    this.isLoading = false;
-    const params = {
-      id: this.$route.params.id,
-      limit: 20,
-      offset: 0,
-    };
-    const comment = await getComment(params);
-    this.comment = comment.data;
-    const { total } = this.comment;
-    this.tabBarList = [
-      {
-        title: '歌单列表',
-        index: 0,
-      },
-      {
-        title: `评论(${total})`,
-        index: 1,
-      },
-      {
-        title: '收藏者',
-        index: 2,
-      },
-    ];
+    await this.getData();
     // console.log(this.playListContent.songs);
   }
   // mounted() { }

@@ -63,6 +63,8 @@
         @changeCommentPage="changeCommentPage"
         v-else-if="currentContent == 1"
         :comment="comment"
+        :type="4"
+        :id="$route.params.id"
       >
       </Comment>
       <div class="albumDetail-description" v-else>

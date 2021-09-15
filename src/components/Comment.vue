@@ -64,11 +64,10 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Vue, Watch, Prop,
-} from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator';
 
 import CommentItem from '@components/CommentItem.vue';
+import { sendComment } from '@services/Comment';
 
 @Component({
   name: 'Comment',
@@ -77,25 +76,38 @@ import CommentItem from '@components/CommentItem.vue';
   },
 })
 export default class Default extends Vue {
+  commentInfo = '';
+
   changePage(page: number) {
     this.$emit('changeCommentPage', page - 1);
     // console.log(page);
   }
 
-  sendComment() {
-    console.log('send');
+  async sendComment() {
+    const params = {
+      t: 1,
+      type: this.type,
+      id: this.id,
+      content: this.commentInfo,
+      cookie: sessionStorage.getItem('cookie'),
+    };
+    const res = await sendComment(params);
+    console.log(res.data);
+    if (res.data.code === 200) {
+      this.$message({ type: 'success', message: '评论成功，刷新页面更新' });
+    } else {
+      this.$message({ type: 'error', message: '评论失败' });
+    }
   }
-
-  @Watch('name')
-  getWatchValue(newVal: string, oldVal: string) {
-    console.log(newVal, oldVal);
-  }
-
-  @Prop({ default: '' })
-  commentInfo!: string;
 
   @Prop()
   comment!: any;
+
+  @Prop()
+  type!: string;
+
+  @Prop()
+  id!: number;
 
   @Prop({ default: true })
   hasPadding!: boolean;

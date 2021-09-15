@@ -134,7 +134,6 @@ import {
   getSongDetail,
 } from '@services/Search';
 import { debounce } from '@utils';
-import router from '../router';
 
 @Component({
   name: 'Search',

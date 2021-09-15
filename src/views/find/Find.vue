@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <display-music-bar></display-music-bar>
-    <div class="container">
+    <div id="container">
       <router-view></router-view>
     </div>
   </div>
@@ -42,7 +42,7 @@ export default class Default extends Vue {
 <style scoped lang="scss">
 @import '~@assets/css/scroll.scss';
 
-.container {
+#container {
   width: 100%;
   height: calc(100vh - 230px);
   padding: 30px 0.784314rem 0;
@@ -53,7 +53,7 @@ export default class Default extends Vue {
 }
 
 @media screen and (max-width: 1250px) {
-  .container {
+  #container {
     padding: 30px 98px 0;
   }
 }

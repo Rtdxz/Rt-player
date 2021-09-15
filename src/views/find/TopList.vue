@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <div class="officialList">
+    <div class="officialList" v-loading="isLoading">
       <div class="officialList-title title">官方榜</div>
       <div class="officialList-content">
         <div
@@ -10,6 +10,7 @@
         >
           <div
             class="officialList-list_pic"
+            @click="$router.push(`/PlayListDetail/${list.id}`)"
             :style="{
               backgroundImage: `url(${list.coverImgUrl || list.coverUrl})`,
             }"
@@ -17,7 +18,7 @@
           <div class="officialList-list_content">
             <div
               class="officialList-list_item"
-              v-for="(item, index) in list.tracks || list.artists"
+              v-for="(item, index) in list.tracks"
               :key="item.id"
             >
               <div class="first">
@@ -53,9 +54,7 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Vue, Watch, Prop,
-} from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 
 import { getTopListDetail } from '@services/TopList';
 
@@ -74,21 +73,17 @@ export default class Default extends Vue {
 
   globallist: any = [];
 
-  @Watch('name')
-  getWatchValue(newVal: string, oldVal: string) {
-    console.log(newVal, oldVal);
-  }
-
-  @Prop({ default: 'default value' })
-  propA!: string;
+  isLoading = true;
 
   async created() {
+    this.isLoading = true;
     const toplist = await getTopListDetail();
+
+    this.isLoading = false;
     console.log(toplist.data);
     this.toplist = toplist.data;
-    this.officiallist = this.toplist.list
-      .slice(0, 4)
-      .concat(this.toplist.artistToplist);
+    this.officiallist = this.toplist.list.slice(0, 4);
+
     this.globallist = this.toplist.list.slice(4);
     console.log(this.globallist);
   }
@@ -153,8 +148,8 @@ export default class Default extends Vue {
   }
 }
 .globalList {
-  &-title {
-  }
+  // &-title {
+  // }
   &-content {
     display: flex;
     flex-wrap: wrap;

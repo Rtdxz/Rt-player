@@ -8,6 +8,7 @@
         :style="{
           backgroundImage: `url(${item.imageUrl})`,
         }"
+        @click.native="playMusicDetail(item.targetId)"
       >
         <h3 class="medium"></h3>
       </el-carousel-item>
@@ -27,13 +28,17 @@
           <div
             class="privatecontent_content_item_pic"
             :style="{ backgroundImage: `url(${item.sPicUrl})` }"
+            @click="gotoMVPage(item.id)"
           >
             <svg-icon
               type="play2"
               class="privatecontent_content_item_icon"
             ></svg-icon>
           </div>
-          <div class="privatecontent_content_item_title item_title">
+          <div
+            class="privatecontent_content_item_title item_title"
+            @click="gotoMVPage(item.id)"
+          >
             {{ item.name }}
           </div>
         </div>
@@ -46,10 +51,10 @@
       </div>
       <div class="recommandSongSheet_content">
         <song-sheet-item
-          v-for="(item,index) in recommandSongSheet.recommend.length !== 0
+          v-for="(item, index) in recommandSongSheet.recommend.length !== 0
             ? recommandSongSheet.recommend.slice(0, 10)
             : recommandPlayList"
-            :left="Number(index) % 5 === 0"
+          :left="Number(index) % 5 === 0"
           :key="item.id"
           :item="item"
           :type="'Individuation'"
@@ -86,10 +91,11 @@
           class="newestSong_content_item"
           v-for="item in newestSong.result"
           :key="item.id"
+          @dblclick="playMusicDetail(item.id)"
         >
           <div
             class="newestSong_content_item_pic"
-            :style="{ backgroundImage: `url(${item.picUrl})` }"
+            v-lazy:background-image="{ src: item.picUrl }"
           >
             <svg-icon
               class="newestSong_content_item_icon"
@@ -107,6 +113,7 @@
                 type="MV"
                 class="newestSong_content_item_mvicon"
                 v-if="item.song.mvid != 0"
+                @click.native="gotoMVPage(item.song.mvid)"
               ></svg-icon>
               <div
                 class="artist"
@@ -134,7 +141,13 @@
         推荐MV<svg-icon type="right-arrow" class="icon"></svg-icon>
       </div>
       <div class="recommandMV_content">
-        <MVItem v-for="item in mv.result" :key="item.id" :item="item" :width=4></MVItem>
+        <MVItem
+          v-for="item in mv.result"
+          :key="item.id"
+          :item="item"
+          :width="4"
+          @click.native="gotoMVPage(item.id)"
+        ></MVItem>
         <!-- <div
           class="recommandMV_content_item"
           v-for="item in mv.result"
@@ -175,9 +188,7 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Vue, Watch, Prop,
-} from 'vue-property-decorator';
+import { Component, Watch } from 'vue-property-decorator';
 
 import {
   getPrivateContent,
@@ -186,6 +197,7 @@ import {
   getNewestSong,
   getRecommandMV,
   getRecommandPlayLists,
+  getSongDetail,
 } from '@services/Individuation';
 import { PrivateContent, RecommandSongSheet } from '@interface';
 
@@ -195,6 +207,7 @@ import SongSheetItem from '@components/SongSheetItem.vue';
 import { mapState } from 'vuex';
 
 import MVItem from '@components/MVItem.vue';
+import { PublicPlay } from '@mixins/PublicPlay';
 
 @Component({
   name: 'Individuation',
@@ -207,7 +220,7 @@ import MVItem from '@components/MVItem.vue';
     ...mapState(['isLogin']),
   },
 })
-export default class Default extends Vue {
+export default class Default extends PublicPlay {
   isLogin!: boolean;
 
   privatecontent: PrivateContent = {
@@ -238,13 +251,21 @@ export default class Default extends Vue {
 
   mv: any = {};
 
+  async playMusicDetail(id: string) {
+    console.log(id);
+    const res = await getSongDetail(id);
+    this.playMusic(res.data.songs[0]);
+  }
+
   @Watch('name')
   getWatchValue(newVal: string, oldVal: string) {
     console.log(newVal, oldVal);
   }
 
-  @Prop({ default: 'default value' })
-  propA!: string;
+  gotoMVPage(id: number | string) {
+    console.log(id);
+    this.$router.push(`/MVDetail/${id}`);
+  }
 
   async created() {
     const banner = await getBanner();
@@ -265,7 +286,7 @@ export default class Default extends Vue {
 
     const mv = await getRecommandMV();
     this.mv = mv.data;
-    console.log(this.mv);
+    console.log(this.banner);
   }
 
   mounted() {
@@ -441,7 +462,7 @@ export default class Default extends Vue {
         height: 50px;
         width: 50px;
         background-repeat: no-repeat;
-        background-size: 100% 100%;
+        background-size: cover;
         background-position: center center;
         border-radius: 7px;
         cursor: pointer;

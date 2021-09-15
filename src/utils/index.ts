@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 // 将间隔时间(毫秒)转成显示时间分钟和秒
 export const timeHandle = function (duration: number): any {
   return `${
@@ -32,9 +33,9 @@ export const dateFormat = function (time: number) {
   const m = `${dt.getMonth() + 1}`.padStart(2, '0');
   const d = `${dt.getDate()}`.padStart(2, '0');
 
-  const hh = `${dt.getHours()}`.padStart(2, '0');
-  const mm = `${dt.getMinutes()}`.padStart(2, '0');
-  const ss = `${dt.getSeconds()}`.padStart(2, '0');
+  // const hh = `${dt.getHours()}`.padStart(2, '0');
+  // const mm = `${dt.getMinutes()}`.padStart(2, '0');
+  // const ss = `${dt.getSeconds()}`.padStart(2, '0');
 
   // return `${y}-${m}-${d} ${hh}:${mm}:${ss}`;
   return `${y}-${m}-${d}`;
@@ -68,7 +69,7 @@ export const debounce = function (
   delay = 500,
 ) {
   let timer: NodeJS.Timer | null = null;
-  console.log('b');
+
   return (...args: any) => {
     if (timer) {
       clearTimeout(timer);
@@ -87,13 +88,13 @@ export const throttle = function (
   delay = 500,
 ) {
   let timer: NodeJS.Timer | null = null;
-  console.log('b');
+
   return (...args: any) => {
-    if (timer) {
-      clearTimeout(timer);
+    if (!timer) {
+      timer = setTimeout(() => {
+        fun.apply(this, args);
+        timer = null;
+      }, delay);
     }
-    timer = setTimeout(() => {
-      fun.apply(this, args);
-    }, delay);
   };
 };

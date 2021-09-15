@@ -1,5 +1,6 @@
 <template>
   <div class="MusicController">
+    <!-- autoplay="autoplay" -->
     <audio
       autoplay="autoplay"
       @start="start"
@@ -113,6 +114,7 @@ export default class Default extends PublicPlay {
 
   slider!: any;
 
+  isBeforeDestroy = false;
   // currentTime = 0;
 
   playDur!: number[];
@@ -155,16 +157,17 @@ export default class Default extends PublicPlay {
   }
 
   timeUpdate() {
-    if (this.isDragging) return;
+    if (this.isDragging || this.isBeforeDestroy) return;
     // this.audio.currenTime += 1;
     // console.log(this.audio.currentTime);
-    const music: any = this.$refs.audio;
-    // this.$store.state.currentTime = music.currentTime + this.playDur[0];
-    this.$store.commit(
-      'changeCurrentTime',
-      music.currentTime + this.playDur[0],
-    );
-    // console.log(this.currentTime);
+    this.$nextTick(() => {
+      const music: any = this.$refs.audio;
+      // this.$store.state.currentTime = music.currentTime + this.playDur[0];
+      this.$store.commit(
+        'changeCurrentTime',
+        music.currentTime + this.playDur[0],
+      );
+    });
   }
 
   /*  type:
@@ -334,9 +337,22 @@ export default class Default extends PublicPlay {
   @Prop({ default: 'default value' })
   propA!: string;
 
-  // created() { }
   mounted() {
-    console.log(this.currentMusic);
+    // 离开页面回来初始化
+    const music: any = this.$refs.audio;
+    music.currentTime = this.$store.state.currentTime - this.playDur[0];
+    if (!this.isPlaying) {
+      console.log(music);
+      music.pause();
+      // this.$store.commit('changePlayStatus', f);
+      // this.isPlaying = true;
+    }
+  }
+
+  beforeDestroy() {
+    // 退出前的一些状态保存处理
+    this.isBeforeDestroy = true;
+    this.$store.commit('changePlayStatus', false);
   }
 }
 </script>
@@ -406,6 +422,7 @@ export default class Default extends PublicPlay {
 .el-slider {
   &:hover {
     .el-slider__bar {
+      cursor: pointer;
       height: 5px;
     }
     .el-slider__runway {
@@ -428,7 +445,7 @@ export default class Default extends PublicPlay {
     .el-slider__button-wrapper {
       height: 10px;
       width: 10px;
-      top: -13px;
+      top: -7px;
     }
   }
   .el-slider__button {
@@ -445,6 +462,7 @@ export default class Default extends PublicPlay {
     // border-radius: 0;
   }
   .el-slider__bar {
+    cursor: pointer;
     background-color: #ff4e4e;
     height: 3px;
   }
@@ -458,7 +476,7 @@ export default class Default extends PublicPlay {
   .el-slider__button-wrapper {
     height: 10px;
     width: 10px;
-    top: -14px;
+    top: -5px;
   }
 }
 .volume {

@@ -1,9 +1,10 @@
 import request from 'xhr-axios';
 
-export const getAllPlayList = (page: number) => request({
+export const getAllPlayList = (page: number, cat?: string) => request({
   method: 'get',
   url: '/top/playlist',
   params: {
+    cat: cat === '全部歌单' ? '全部' : cat,
     limit: 100,
     offset: page * 100,
   },
@@ -20,4 +21,13 @@ export const getAllPlayList = (page: number) => request({
   //       offset:
   //     // 偏移数量, 用于分页, 如: (评论页数 - 1) * 50, 其中 50 为 limit 的值
   //   },
+});
+
+export const getHotTags = () => request({
+  method: 'get',
+  url: 'playlist/hot',
+});
+export const getAllTags = () => request({
+  method: 'get',
+  url: '/playlist/catlist',
 });

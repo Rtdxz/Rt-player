@@ -85,7 +85,12 @@
       </div>
 
       <div class="currentMusicBoard-comment">
-        <Comment @changeCommentPage="changeCommentPage" :comment="comment">
+        <Comment
+          @changeCommentPage="changeCommentPage"
+          :comment="comment"
+          :type="0"
+          :id="currentMusicId"
+        >
         </Comment>
       </div>
     </div>

@@ -46,3 +46,7 @@ interface PrivateContentItem {
   type: number;
   url: string | null;
 }
+
+export interface Tag {
+  name: string;
+}

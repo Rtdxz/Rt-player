@@ -20,7 +20,7 @@ export class PublicSearchPage extends Vue {
   limit!: number;
 
   @Watch('searchKeywords')
-  async getWatchValue(newVal: string, oldVal: string) {
+  async getWatchValue(newVal: string) {
     if (newVal === '') return;
     await this.getData(1);
     this.$emit(

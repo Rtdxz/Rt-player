@@ -39,7 +39,7 @@
 import {
   Component, Vue, Watch, Prop,
 } from 'vue-property-decorator';
-import { dateFormat, timeFormat, Rank } from '@utils';
+import { dateFormat } from '@utils';
 import SvgIcon from '@components/svg/SvgIcon.vue';
 
 @Component({

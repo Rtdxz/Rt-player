@@ -14,7 +14,7 @@
         }"
         v-for="(item, index) in tabList"
         :key="index"
-        @click="clickTab(item, index)"
+        @click="clickTab(item)"
       >
         {{ item.title }}
       </div>
@@ -72,7 +72,7 @@ export default class Default extends Vue {
     },
   ];
 
-  clickTab(item: Tab, index: number) {
+  clickTab(item: Tab) {
     this.$router.push(item.path);
   }
 }

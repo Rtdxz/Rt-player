@@ -12,28 +12,34 @@
       </div>
       <Search></Search>
     </div>
-    <div
-      class="header-user"
-      v-if="isLogin"
-      @click="$router.push(`/UserDetail/${userId}`)"
-    >
+    <div class="header-user">
       <div
         class="header-user-avatar"
-        :style="{ backgroundImage: `url(${userInfo.avatarUrl})` }"
+        :style="{
+          backgroundImage: `url(${isLogin ? userInfo.avatarUrl : urlIcon})`,
+        }"
+        @click="clickUser"
       ></div>
-      <div class="header-user-name">{{ userInfo.nickname }}</div>
+      <div
+        class="header-user-name"
+        @click="isLogin ? (isShowUserBar = !isShowUserBar) : openLoginBar()"
+      >
+        {{ isLogin ? userInfo.nickname : '未登录' }}
+      </div>
+      <div class="header-user-bar" v-if="isShowUserBar" @click="logout">
+        退出登录
+      </div>
     </div>
-    <el-button @click="openLoginBar" class="header-login" v-if="!isLogin"
+    <!-- <el-button @click="openLoginBar" class="header-login" v-if="!isLogin"
       >login</el-button
     >
-    <el-button @click="logout" class="header-login" v-else>logout</el-button>
+
+    <el-button @click="logout" class="header-login" v-else>logout</el-button> -->
   </div>
 </template>
 
 <script lang="ts">
-import {
-  Component, Vue, Watch, Prop,
-} from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 
 import SvgIcon from '@components/svg/SvgIcon.vue';
 
@@ -58,25 +64,28 @@ export default class Default extends Vue {
 
   userId!: SVGStringList;
 
+  urlIcon: any = {};
+
+  isShowUserBar = false;
+
   logout() {
+    this.isShowUserBar = false;
     this.$store.commit('logout');
+    this.$router.go(0);
   }
 
-  @Watch('name')
-  getWatchValue(newVal: string, oldVal: string) {
-    console.log(newVal, oldVal);
+  created() {
+    // eslint-disable-next-line global-require
+    this.urlIcon = require('@/assets/img/user.jpg');
   }
 
-  @Prop({ default: 'default value' })
-  propA!: string;
-
-  // created() {
-  //   console.log('created');
-  // }
-
-  // mounted() {
-  //   console.log('mounted');
-  // }
+  clickUser() {
+    if (!this.isLogin) {
+      this.openLoginBar();
+    } else {
+      this.$router.push(`/UserDetail/${this.userId}`);
+    }
+  }
 
   openLoginBar() {
     this.$emit('showLoginBar');
@@ -146,7 +155,7 @@ export default class Default extends Vue {
   }
   &-user {
     position: absolute;
-    right: 150px;
+    right: 120px;
     display: flex;
     align-items: center;
     &-avatar {
@@ -161,9 +170,26 @@ export default class Default extends Vue {
     }
     &-name {
       cursor: pointer;
-      margin-left: 5px;
+      margin-left: 8px;
       font-size: 13px;
       color: #fff;
+    }
+    &-bar {
+      position: absolute;
+      top: 43px;
+      width: 100px;
+      height: 50px;
+      line-height: 50px;
+      text-align: center;
+      font-size: 16px;
+      box-shadow: 0px 0px 3px 3px rgba(100, 100, 100, 0.1);
+      border-radius: 5px;
+      background-color: #fff;
+      color: #303031;
+      cursor: pointer;
+      &:hover {
+        background-color: #f0f1f2;
+      }
     }
   }
 }

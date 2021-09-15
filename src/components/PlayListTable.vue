@@ -55,9 +55,7 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Vue, Watch, Prop,
-} from 'vue-property-decorator';
+import { Component, Watch, Prop } from 'vue-property-decorator';
 import SvgIcon from '@components/svg/SvgIcon.vue';
 import { mapState } from 'vuex';
 import { PublicPlay } from '@mixins/PublicPlay';

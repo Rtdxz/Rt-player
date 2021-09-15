@@ -16,9 +16,7 @@
           class="MVDetail-main-artist-pic"
           :style="{
             backgroundImage: `url(${
-              artist.artist
-                ? artist.artist.cover
-                : 'http://p2.music.126.net/w_vuv9hBWq2hlJxJcmJrjg==/109951166115915081.jpg'
+              artist.artist ? artist.artist.cover : urlIcon
             })`,
           }"
           @click="$router.push(`/ArtistDetail/${MVInfo.artists[0].id}`)"
@@ -35,9 +33,7 @@
           class="MVDetail-main-artist-pic"
           :style="{
             backgroundImage: `url(${
-              creator.avatarUrl != undefined
-                ? creator.avatarUrl
-                : 'http://p2.music.126.net/w_vuv9hBWq2hlJxJcmJrjg==/109951166115915081.jpg'
+              creator.avatarUrl != undefined ? creator.avatarUrl : urlIcon
             })`,
           }"
           @click="$router.push(`/UserDetail/${creator.userId}`)"
@@ -86,6 +82,8 @@
           @changeCommentPage="changeCommentPage"
           :comment="comment"
           :hasPadding="false"
+          :type="1"
+          :id="$route.params.id"
         >
         </Comment>
       </div>
@@ -147,9 +145,7 @@
 </template>
 
 <script lang="ts">
-import {
-  Component, Vue, Watch, Prop,
-} from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import {
   getMVDetail,
   getMVUrl,
@@ -186,8 +182,7 @@ export default class Default extends Vue {
 
   relateMV: any = [];
 
-  cover =
-    'http://p2.music.126.net/w_vuv9hBWq2hlJxJcmJrjg==/109951166115915081.jpg';
+  urlIcon: any = {};
 
   id = '';
 
@@ -224,11 +219,13 @@ export default class Default extends Vue {
 
   @Watch('$route')
   async getData() {
+    // eslint-disable-next-line global-require
+    this.urlIcon = require('@/assets/img/white.jpeg');
     this.MVUrl = '';
     this.MVInfo = {};
     this.artist = {};
     this.creator = {};
-    this.cover = 'http://p2.music.126.net/w_vuv9hBWq2hlJxJcmJrjg==/109951166115915081.jpg';
+
     this.comment = {};
     this.relateMV = [];
     const { id } = this.$route.params;
@@ -243,8 +240,7 @@ export default class Default extends Vue {
       const artist = await getArtistDetail(this.MVInfo.artists[0].id);
 
       this.artist = artist.data.data;
-      this.cover = this.artist.artist.cover;
-      console.log(this.cover, 'cover');
+
       const params = {
         id,
         limit: 20,
@@ -335,6 +331,7 @@ export default class Default extends Vue {
       &-name {
         font-size: 23px;
         font-weight: 700;
+        word-break: break-all;
       }
       &-base {
         display: flex;

@@ -16,6 +16,14 @@ export const getBanner = (type = 0) => request({
   },
 });
 
+export const getSongDetail = (ids: string) => request({
+  method: 'get',
+  url: '/song/detail',
+  params: {
+    ids,
+  },
+});
+
 export const getPrivateContent = () => request({
   method: 'get',
   url: '/personalized/privatecontent',

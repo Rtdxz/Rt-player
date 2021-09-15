@@ -35,7 +35,6 @@ export const getRecommandMV = () => request({
 });
 
 const cookie = sessionStorage.getItem('cookie');
-const password = encodeURIComponent('18023276136rtc');
 export const getRecommandSongSheet = () => request({
   method: 'get',
   url: `/recommend/resource?cookie=${cookie}`,

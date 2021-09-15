@@ -24,6 +24,8 @@ import ArtistDetail from '@views/ArtistDetail.vue';
 import MVDetail from '@views/MVDetail.vue';
 import AlbumDetail from '@views/AlbumDetail.vue';
 
+import NotFound from '@views/NotFound.vue';
+
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
@@ -129,6 +131,14 @@ const routes: Array<RouteConfig> = [
         component: SearchByUser,
       },
     ],
+  },
+  {
+    path: '/404',
+    name: 'NotFound',
+    component: NotFound,
+  }, {
+    path: '*', // 此处需特别注意置于最底部
+    redirect: '/404',
   },
 ];
 
